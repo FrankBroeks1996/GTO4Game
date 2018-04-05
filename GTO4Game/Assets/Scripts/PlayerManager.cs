@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
-
+    public PathFinding PathFinding;
     public List<Player> Players;
     public GameObject PlayerColorPanel;
     public Player PlayerInTurn;
@@ -43,6 +43,7 @@ public class PlayerManager : MonoBehaviour {
         ChangeScreen.ChangePlayerScreen(PlayerInTurn);
         ResetPlayerUnits();
         selectionHandler.ResetSelection();
+        PathFinding.HandlePlayerHarvesters(PlayerInTurn);
     }
 
     public void ResetPlayerUnits()

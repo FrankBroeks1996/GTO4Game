@@ -100,9 +100,13 @@ MonoBehaviour:
   tile: {fileID: 0}
   Health: 0
   Damage: 0
+  Price: 0
+  CanMoveInTurn: 1
+  CanAttackInTurn: 1
   HasResources: 0
   Harvesting: 0
   Destination: {fileID: 0}
+  ResourceCarryAmount: 200
 --- !u!114 &114878188498872466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74c35d23b649dc41961edcd8e140d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 0}
+  TileGrid: {fileID: 0}
   MovementHandler: {fileID: 0}

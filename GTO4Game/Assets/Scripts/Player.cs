@@ -9,4 +9,5 @@ public class Player : MonoBehaviour {
     public Color color;
     public PlayerUI PlayerUI;
     public StructureFactory BaseFactory;
+    public Resource Resources;
 }

@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour {
     public Tile tile;
     public int Health;
     public int Damage;
+    public int Price;
     public bool CanMoveInTurn = true;
     public bool CanAttackInTurn = true;
 }

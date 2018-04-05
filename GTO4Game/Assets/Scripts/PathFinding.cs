@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class PathFinding : MonoBehaviour {
 
-    public Grid Grid;
+    public Grid TileGrid;
     public MovementHandler MovementHandler;
+
+    public void HandlePlayerHarvesters(Player player)
+    {
+        List<Unit> harvesters = TileGrid.GetAllPlayerHarvesters(player);
+        foreach (Unit harvester in harvesters)
+        {
+            MoveHarvesterToNode(harvester);
+        }
+    }
 
     public void MoveHarvesterToNode(Unit unit)
     {
@@ -23,21 +32,20 @@ public class PathFinding : MonoBehaviour {
             {
                 if (harvester.HasResources)
                 {
-                    harvester.Destination = Grid.GetTileWithBase(harvesterTile);
+                    harvester.Destination = TileGrid.GetTileWithBase(harvesterTile, harvester.Player);
                 }
                 else
                 {
-                    harvester.Destination = Grid.GetClosestTileWithResourceNode(harvesterTile);
+                    harvester.Destination = TileGrid.GetClosestTileWithResourceNode(harvesterTile);
                 }
             }
 
-            Debug.Log(harvester.MovementCount);
-            List<Tile> possibleTiles = Grid.GetTilesWithinMovementRange(harvesterTile, harvester.MovementCount);
-            Tile bestTile = Grid.GetBestTile(harvester.Destination, possibleTiles);
+            List<Tile> possibleTiles = TileGrid.GetTilesWithinMovementRange(harvesterTile, harvester.MovementCount);
+            Tile bestTile = TileGrid.GetBestTile(harvester.Destination, possibleTiles);
 
             MovementHandler.Move(unit, bestTile);
             harvesterTile = unit.transform.parent.GetComponent<Tile>();
-            if (Grid.GetDistanceBetweenTiles(harvesterTile, harvester.Destination) == 1)
+            if (TileGrid.GetDistanceBetweenTiles(harvesterTile, harvester.Destination) == 1)
             {
                 if (!harvester.HasResources)
                 {
@@ -45,6 +53,7 @@ public class PathFinding : MonoBehaviour {
                 }
                 else
                 {
+                    harvester.Player.Resources.AddResources(harvester.ResourceCarryAmount);
                     harvester.HasResources = false;
                 }
                 harvester.Destination = null;

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
-    public float Speed = 10;
+    public float Speed = 15;
+    public float ScrollSpeed = 300;
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,6 +24,27 @@ public class CameraMovement : MonoBehaviour {
         if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.Translate(new Vector3(0, Speed * Time.deltaTime, 0));
+        }
+        if(Input.mouseScrollDelta.y > 0)
+        {
+            transform.Translate(new Vector3(0, 0, ScrollSpeed * Time.deltaTime));
+        }
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            if(transform.position.y < 50)
+            {
+                transform.Translate(new Vector3(0, 0, -ScrollSpeed * Time.deltaTime));
+            }
+        }
+
+        CheckBounds();
+    }
+
+    public void CheckBounds()
+    {
+        if(transform.position.y < 8)
+        {
+            transform.position = new Vector3(transform.position.x, 8, transform.position.z);
         }
     }
 }

@@ -24,6 +24,7 @@ public class Grid : MonoBehaviour {
                 grid[x, y] = Instantiate<Tile>(Tile, new Vector3(x + 1.5f * x, 1, y + 1.5f * y), Quaternion.identity);
             }
         }
+        InstantiateResourceHarvester();
     }
     
     public Tile GetFirstEmptyTile()
@@ -64,32 +65,6 @@ public class Grid : MonoBehaviour {
         return tiles;
     }
 
-    //public void InstantiateBases()
-    //{
-    //    GameObject basePlayer1 = Instantiate(Base, new Vector3(grid[3, 3].transform.position.x, 3, grid[3, 3].transform.position.z), Quaternion.identity);
-    //    basePlayer1.transform.SetParent(grid[3, 3].transform);
-    //    grid[3, 3].Occupied = true;
-    //    grid[3, 3].StructureOnTile = basePlayer1.GetComponent<Structure>();
-
-    //    GameObject basePlayer2 = Instantiate(Base, new Vector3(grid[Size - 4, Size - 4].transform.position.x, 3, grid[Size - 4, Size - 4].transform.position.z), Quaternion.identity);
-    //    basePlayer2.transform.SetParent(grid[Size - 4, Size - 4].transform);
-    //    grid[Size - 4, Size - 4].Occupied = true;
-    //    grid[Size - 4, Size - 4].StructureOnTile = basePlayer2.GetComponent<Structure>();
-    //}
-
-    //public void InstantiateResourceNodes()
-    //{
-    //    GameObject resourceNode1 = Instantiate(ResourceNode, new Vector3(grid[0, 0].transform.position.x, 3, grid[0, 0].transform.position.z), Quaternion.identity);
-    //    resourceNode1.transform.SetParent(grid[0, 0].transform);
-    //    grid[0, 0].Occupied = true;
-    //    grid[0, 0].ResourceNodeOnTile = resourceNode1.GetComponent<ResourceNode>();
-
-    //    GameObject resourceNode2 = Instantiate(ResourceNode, new Vector3(grid[Size - 1, Size - 1].transform.position.x, 3, grid[Size - 1, Size - 1].transform.position.z), Quaternion.identity);
-    //    resourceNode2.transform.SetParent(grid[Size - 1, Size - 1].transform);
-    //    grid[Size - 1, Size - 1].Occupied = true;
-    //    grid[Size - 1, Size - 1].ResourceNodeOnTile = resourceNode2.GetComponent<ResourceNode>();
-    //}
-
     public void InstantiateResourceHarvester()
     {
         GameObject harvester = Instantiate(Harvester, new Vector3(grid[3, 8].transform.position.x, 3, grid[3, 8].transform.position.z), Quaternion.identity);
@@ -97,6 +72,18 @@ public class Grid : MonoBehaviour {
         harvester.GetComponent<Unit>().Player = Players[0];
         grid[3, 8].Occupied = true;
         grid[3, 8].UnitOnTile = harvester.GetComponent<Unit>();
+
+        GameObject harvester1 = Instantiate(Harvester, new Vector3(grid[3, 2].transform.position.x, 3, grid[3, 2].transform.position.z), Quaternion.identity);
+        harvester1.transform.SetParent(grid[3, 2].transform);
+        harvester1.GetComponent<Unit>().Player = Players[0];
+        grid[3, 2].Occupied = true;
+        grid[3, 2].UnitOnTile = harvester1.GetComponent<Unit>();
+
+        GameObject harvester2 = Instantiate(Harvester, new Vector3(grid[7, 2].transform.position.x, 3, grid[7, 2].transform.position.z), Quaternion.identity);
+        harvester2.transform.SetParent(grid[7, 2].transform);
+        harvester2.GetComponent<Unit>().Player = Players[0];
+        grid[7, 2].Occupied = true;
+        grid[7, 2].UnitOnTile = harvester2.GetComponent<Unit>();
     }
 
     public int GetDistanceBetweenTiles(Tile startTile, Tile endTile)
@@ -156,7 +143,7 @@ public class Grid : MonoBehaviour {
         return closestTile;
     }
 
-    public Tile GetTileWithBase(Tile fromTile)
+    public Tile GetTileWithBase(Tile fromTile, Player player)
     {
         Tile closestTile = null;
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -164,7 +151,7 @@ public class Grid : MonoBehaviour {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 Structure structioreOnTile = grid[x, y].StructureOnTile;
-                if (structioreOnTile != null && structioreOnTile.StructureType == StructureType.Base)
+                if (structioreOnTile != null && structioreOnTile.StructureType == StructureType.Base && structioreOnTile.player == player)
                 {
                     if (closestTile == null || GetDistanceBetweenTiles(fromTile, grid[x, y]) < GetDistanceBetweenTiles(closestTile, fromTile))
                     {
@@ -309,5 +296,21 @@ public class Grid : MonoBehaviour {
             }
         }
         return tilesWithPlayerUnit;
+    }
+
+    public List<Unit> GetAllPlayerHarvesters(Player player)
+    {
+        List<Unit> harvesters = new List<Unit>();
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if(grid[x,y].UnitOnTile != null && grid[x, y].UnitOnTile is Harvester && grid[x,y].UnitOnTile.Player == player)
+                {
+                    harvesters.Add(grid[x, y].UnitOnTile);
+                }
+            }
+        }
+        return harvesters;
     }
 }

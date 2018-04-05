@@ -17,4 +17,5 @@ public class Structure : MonoBehaviour {
     public int SpawnRage; 
     public StructureType StructureType;
     public int Health;
+    public int Price;
 }

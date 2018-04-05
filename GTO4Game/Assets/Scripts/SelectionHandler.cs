@@ -77,11 +77,11 @@ public class SelectionHandler : MonoBehaviour {
                                 List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
                                 if (buildableTiles.Contains(clickedTile))
                                 {
-                                    if (BuildFactory.GetComponent<StructureFactory>() != null)
+                                    if (BuildFactory.GetComponent<StructureFactory>() != null && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<StructureFactory>().Structure.GetComponent<Structure>().Price))
                                     {
                                         BuildFactory.GetComponent<StructureFactory>().InstantiateStructure(clickedTile);
                                     }
-                                    else if (BuildFactory.GetComponent<UnitFactory>() != null)
+                                    else if (BuildFactory.GetComponent<UnitFactory>() != null && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<UnitFactory>().unit.GetComponent<Unit>().Price))
                                     {
                                         BuildFactory.GetComponent<UnitFactory>().InstantiateUnit(clickedTile);
                                     }
@@ -137,6 +137,7 @@ public class SelectionHandler : MonoBehaviour {
 
     public void ResetSelection(SelectionType selectionType = SelectionType.None)
     {
+        Debug.Log(TileGrid);
         TileGrid.TurnAllHighlightOf();
         SelectionType = selectionType;
         SelectedUnit = null;

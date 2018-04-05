@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388f16e691f19e47902269bffc98c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitsScreen: {fileID: 0}
   BuildingTime: 0
   Factorys:
   - {fileID: 0}
@@ -102,3 +103,5 @@ MonoBehaviour:
   player: {fileID: 0}
   SpawnRage: 0
   StructureType: 0
+  Health: 0
+  Price: 1000
