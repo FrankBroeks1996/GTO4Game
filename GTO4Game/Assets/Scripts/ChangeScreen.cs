@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeScreen : MonoBehaviour {
-    
-    public GameObject BuildScreen;
-    public GameObject UnitControlScreen;
-    public List<GameObject> UnitScreens;
 
-	public void SwitchToBuildStructureScreen()
+    public List<PlayerUI> AllPlayerScreens;
+
+	public void SwitchToBuildStructureScreen(PlayerUI playerUI)
     {
         SetAllScreensInactive();
-        BuildScreen.SetActive(true);
+        playerUI.BuildScreen.SetActive(true);
     }
 
     public void SwitchToCreateUnitScreen(Structure structure)
@@ -23,18 +21,25 @@ public class ChangeScreen : MonoBehaviour {
         }
     }
 
-    public void SwitchToUnitControlScreen()
-    {
-        SetAllScreensInactive();
-        UnitControlScreen.SetActive(true);
-    }
-
     public void SetAllScreensInactive()
     {
-        BuildScreen.SetActive(false);
-        foreach (GameObject screen in UnitScreens)
+        foreach (PlayerUI playerUI in AllPlayerScreens)
         {
-            screen.SetActive(false);
+            playerUI.BuildScreen.SetActive(false);
+            foreach (GameObject screen in playerUI.UnitScreens)
+            {
+                screen.SetActive(false);
+            }
         }
+    }
+
+    public void ChangePlayerScreen(Player player)
+    {
+        SetAllScreensInactive();
+        foreach(PlayerUI playerUI in AllPlayerScreens)
+        {
+            playerUI.gameObject.SetActive(false);
+        }
+        player.PlayerUI.gameObject.SetActive(true);
     }
 }

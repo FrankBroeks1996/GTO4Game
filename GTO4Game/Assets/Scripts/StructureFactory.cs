@@ -10,7 +10,7 @@ public class StructureFactory : MonoBehaviour {
 
     public GameObject InstantiateStructure(Tile tile)
     {
-        GameObject newStructure = Instantiate(Structure, new Vector3(tile.x, 2, tile.y), Quaternion.identity);
+        GameObject newStructure = Instantiate(Structure, new Vector3(tile.transform.position.x, 3, tile.transform.position.z), Quaternion.identity);
         newStructure.SetActive(true);
         newStructure.transform.parent = tile.transform;
         tile.StructureOnTile = newStructure.GetComponent<Structure>();

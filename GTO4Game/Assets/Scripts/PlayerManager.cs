@@ -8,6 +8,9 @@ public class PlayerManager : MonoBehaviour {
     public List<Player> Players;
     public GameObject PlayerColorPanel;
     public Player PlayerInTurn;
+    public Grid TileGrid;
+    public SelectionHandler selectionHandler;
+    public ChangeScreen ChangeScreen;
 
 
 	// Use this for initialization
@@ -37,5 +40,18 @@ public class PlayerManager : MonoBehaviour {
         }
         PlayerColorPanel.GetComponent<Image>().color = PlayerInTurn.color;
         PlayerInTurn.gameObject.SetActive(true);
+        ChangeScreen.ChangePlayerScreen(PlayerInTurn);
+        ResetPlayerUnits();
+        selectionHandler.ResetSelection();
+    }
+
+    public void ResetPlayerUnits()
+    {
+        List<Tile> tilesWithUnit = TileGrid.GetAllTilesWithPlayerUnit(PlayerInTurn);
+        foreach (Tile tile in tilesWithUnit)
+        {
+            tile.UnitOnTile.CanMoveInTurn = true;
+            tile.UnitOnTile.CanAttackInTurn = true;
+        }
     }
 }

@@ -15,11 +15,11 @@ public class MovementHandler : MonoBehaviour {
         tile.Occupied = true;
         unit.transform.position = new Vector3(tile.transform.position.x, unit.transform.position.y, tile.transform.position.z);
         unit.transform.SetParent(tile.transform);
+        unit.CanMoveInTurn = false;
     }
 
     public void UnitAttackUnit(int damage, GameObject target)
     {
-        Debug.Log("In");
         Unit unit = target.GetComponent<Unit>();
         Structure structure = target.GetComponent<Structure>();
         if(unit != null)

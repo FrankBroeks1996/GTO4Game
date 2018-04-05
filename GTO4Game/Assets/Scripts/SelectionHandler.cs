@@ -39,8 +39,17 @@ public class SelectionHandler : MonoBehaviour {
                         SelectionType = SelectionType.Unit;
                         SelectedUnit = clickedTile.UnitOnTile;
                         ChangeScreenHandler.SetAllScreensInactive();
-                        List<Tile> possibleTiles = TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementCount);
-                        possibleTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.MovementCount));
+
+
+                        List<Tile> possibleTiles = new List<Tile>();
+                        if (clickedTile.UnitOnTile.CanMoveInTurn)
+                        {
+                            possibleTiles.AddRange(TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementCount));
+                        }
+                        if (clickedTile.UnitOnTile.CanAttackInTurn)
+                        {
+                            possibleTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.MovementCount));
+                        }
                         foreach (Tile tile in possibleTiles)
                         {
                             if (tile.Occupied)
@@ -65,12 +74,18 @@ public class SelectionHandler : MonoBehaviour {
                         switch (SelectionType)
                         {
                             case SelectionType.Build:
-                                if (BuildFactory.GetComponent<StructureFactory>() != null)
+                                List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
+                                if (buildableTiles.Contains(clickedTile))
                                 {
-                                    BuildFactory.GetComponent<StructureFactory>().InstantiateStructure(clickedTile);
-                                } else if (BuildFactory.GetComponent<UnitFactory>() != null)
-                                {
-                                    BuildFactory.GetComponent<UnitFactory>().InstantiateUnit(clickedTile);
+                                    if (BuildFactory.GetComponent<StructureFactory>() != null)
+                                    {
+                                        BuildFactory.GetComponent<StructureFactory>().InstantiateStructure(clickedTile);
+                                    }
+                                    else if (BuildFactory.GetComponent<UnitFactory>() != null)
+                                    {
+                                        BuildFactory.GetComponent<UnitFactory>().InstantiateUnit(clickedTile);
+                                    }
+                                    ResetSelection(SelectionType.Structure);
                                 }
                                 break;
                             case SelectionType.Unit:
@@ -112,15 +127,24 @@ public class SelectionHandler : MonoBehaviour {
         BuildFactory = factory;
         SelectedStructure = null;
         SelectedUnit = null;
+
+        List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
+        foreach (Tile tile in buildableTiles)
+        {
+            tile.HighLight(true, Color.green);
+        }
     }
 
-    public void ResetSelection()
+    public void ResetSelection(SelectionType selectionType = SelectionType.None)
     {
         TileGrid.TurnAllHighlightOf();
-        SelectionType = SelectionType.None;
+        SelectionType = selectionType;
         SelectedUnit = null;
         SelectedStructure = null;
         BuildFactory = null;
-        ChangeScreenHandler.SwitchToBuildStructureScreen();
+        if(selectionType == SelectionType.None)
+        {
+            ChangeScreenHandler.SwitchToBuildStructureScreen(PlayerManager.PlayerInTurn.PlayerUI);
+        }
     }
 }

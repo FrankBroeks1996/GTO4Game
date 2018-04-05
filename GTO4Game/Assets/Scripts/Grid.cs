@@ -10,11 +10,11 @@ public class Grid : MonoBehaviour {
     public GameObject Base;
     public GameObject Harvester;
     public List<Player> Players;
+    public PlayerManager TurnManager;
 
     private Tile[,] grid;
 
-    // Use this for initialization
-    void Start()
+    public void Initialize()
     {
         grid = new Tile[Size, Size];
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -24,10 +24,6 @@ public class Grid : MonoBehaviour {
                 grid[x, y] = Instantiate<Tile>(Tile, new Vector3(x + 1.5f * x, 1, y + 1.5f * y), Quaternion.identity);
             }
         }
-
-        InstantiateBases();
-        InstantiateResourceNodes();
-        InstantiateResourceHarvester();
     }
     
     public Tile GetFirstEmptyTile()
@@ -46,31 +42,53 @@ public class Grid : MonoBehaviour {
         return null;
     }
 
-    public void InstantiateBases()
+    public Tile GetBaseSpawnPoint()
     {
-        GameObject basePlayer1 = Instantiate(Base, new Vector3(grid[3, 3].transform.position.x, 3, grid[3, 3].transform.position.z), Quaternion.identity);
-        basePlayer1.transform.SetParent(grid[3, 3].transform);
-        grid[3, 3].Occupied = true;
-        grid[3, 3].StructureOnTile = basePlayer1.GetComponent<Structure>();
-
-        GameObject basePlayer2 = Instantiate(Base, new Vector3(grid[Size - 4, Size - 4].transform.position.x, 3, grid[Size - 4, Size - 4].transform.position.z), Quaternion.identity);
-        basePlayer2.transform.SetParent(grid[Size - 4, Size - 4].transform);
-        grid[Size - 4, Size - 4].Occupied = true;
-        grid[Size - 4, Size - 4].StructureOnTile = basePlayer2.GetComponent<Structure>();
+        Tile tile = null;
+        if (!grid[3, 3].Occupied)
+        {
+            tile = grid[3, 3];
+        }
+        else if(!grid[Size - 4, Size - 4].Occupied)
+        {
+            tile = grid[Size - 4, Size - 4];
+        }
+        return tile;
     }
 
-    public void InstantiateResourceNodes()
+    public List<Tile> GetResourceNodeSpawnPoint()
     {
-        GameObject resourceNode1 = Instantiate(ResourceNode, new Vector3(grid[0, 0].transform.position.x, 3, grid[0, 0].transform.position.z), Quaternion.identity);
-        resourceNode1.transform.SetParent(grid[0, 0].transform);
-        grid[0, 0].Occupied = true;
-        grid[0, 0].ResourceNodeOnTile = resourceNode1.GetComponent<ResourceNode>();
-
-        GameObject resourceNode2 = Instantiate(ResourceNode, new Vector3(grid[Size - 1, Size - 1].transform.position.x, 3, grid[Size - 1, Size - 1].transform.position.z), Quaternion.identity);
-        resourceNode2.transform.SetParent(grid[Size - 1, Size - 1].transform);
-        grid[Size - 1, Size - 1].Occupied = true;
-        grid[Size - 1, Size - 1].ResourceNodeOnTile = resourceNode2.GetComponent<ResourceNode>();
+        List<Tile> tiles = new List<Tile>();
+        tiles.Add(grid[0, 0]);
+        tiles.Add(grid[Size - 1, Size - 1]);
+        return tiles;
     }
+
+    //public void InstantiateBases()
+    //{
+    //    GameObject basePlayer1 = Instantiate(Base, new Vector3(grid[3, 3].transform.position.x, 3, grid[3, 3].transform.position.z), Quaternion.identity);
+    //    basePlayer1.transform.SetParent(grid[3, 3].transform);
+    //    grid[3, 3].Occupied = true;
+    //    grid[3, 3].StructureOnTile = basePlayer1.GetComponent<Structure>();
+
+    //    GameObject basePlayer2 = Instantiate(Base, new Vector3(grid[Size - 4, Size - 4].transform.position.x, 3, grid[Size - 4, Size - 4].transform.position.z), Quaternion.identity);
+    //    basePlayer2.transform.SetParent(grid[Size - 4, Size - 4].transform);
+    //    grid[Size - 4, Size - 4].Occupied = true;
+    //    grid[Size - 4, Size - 4].StructureOnTile = basePlayer2.GetComponent<Structure>();
+    //}
+
+    //public void InstantiateResourceNodes()
+    //{
+    //    GameObject resourceNode1 = Instantiate(ResourceNode, new Vector3(grid[0, 0].transform.position.x, 3, grid[0, 0].transform.position.z), Quaternion.identity);
+    //    resourceNode1.transform.SetParent(grid[0, 0].transform);
+    //    grid[0, 0].Occupied = true;
+    //    grid[0, 0].ResourceNodeOnTile = resourceNode1.GetComponent<ResourceNode>();
+
+    //    GameObject resourceNode2 = Instantiate(ResourceNode, new Vector3(grid[Size - 1, Size - 1].transform.position.x, 3, grid[Size - 1, Size - 1].transform.position.z), Quaternion.identity);
+    //    resourceNode2.transform.SetParent(grid[Size - 1, Size - 1].transform);
+    //    grid[Size - 1, Size - 1].Occupied = true;
+    //    grid[Size - 1, Size - 1].ResourceNodeOnTile = resourceNode2.GetComponent<ResourceNode>();
+    //}
 
     public void InstantiateResourceHarvester()
     {
@@ -103,27 +121,6 @@ public class Grid : MonoBehaviour {
         }
         return 0;
     }
-
-    //public void MergeTiles(Tile tile)
-    //{
-    //    Vector2 tilePos = GetGridTilePosition(tile);
-
-    //    int count = 2;
-    //    //float shiftAmount = 0.15f / count;
-    //    float plusx = 0.3f;
-    //    float plusy = 0.3f;
-
-    //    for (int x = 0; x < count; x++)
-    //    {
-    //        for (int y = 0; y < count; y++)
-    //        {
-    //            grid[(int)tilePos.x + x, (int)tilePos.y + y].transform.position = new Vector3(grid[(int)tilePos.x + x, (int)tilePos.y + y].transform.position.x + (plusx - 0.15f), 1, grid[(int)tilePos.x + x, (int)tilePos.y + y].transform.position.z + (plusy - 0.15f));
-    //            //plusy -= 
-    //        }
-    //        plusy = 0.3f;
-    //        plusx -= 0.3f / count + (0.075f * count);
-    //    }
-    //}
 
     public Vector2 GetGridTilePosition(Tile tile)
     {
@@ -255,5 +252,62 @@ public class Grid : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    public List<Tile> GetAllTilesWithPlayerStructure()
+    {
+        List<Tile> tilesWithPlayerStructure = new List<Tile>();
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (grid[x, y].StructureOnTile != null && grid[x, y].StructureOnTile.player == TurnManager.PlayerInTurn)
+                {
+                    tilesWithPlayerStructure.Add(grid[x, y]);
+                }
+            }
+        }
+        return tilesWithPlayerStructure;
+    }
+
+    public List<Tile> GetAllBuildableTiles(int buildRange)
+    {
+        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure();
+        List<Tile> buildableTiles = new List<Tile>();
+
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (!grid[x, y].Occupied)
+                {
+                    foreach (Tile tile in tilesWithPlayerStructure)
+                    {
+                        if(GetDistanceBetweenTiles(grid[x,y], tile) <= buildRange)
+                        {
+                            buildableTiles.Add(grid[x, y]);
+                        }
+                    }
+                }
+            }
+        }
+        return buildableTiles;
+    }
+
+    public List<Tile> GetAllTilesWithPlayerUnit(Player player)
+    {
+        List<Tile> tilesWithPlayerUnit = new List<Tile>();
+
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (grid[x, y].UnitOnTile != null && grid[x,y].UnitOnTile.Player == player)
+                {
+                    tilesWithPlayerUnit.Add(grid[x,y]);
+                }
+            }
+        }
+        return tilesWithPlayerUnit;
     }
 }
