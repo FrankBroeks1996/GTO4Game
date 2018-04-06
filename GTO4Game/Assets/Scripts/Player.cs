@@ -10,4 +10,5 @@ public class Player : MonoBehaviour {
     public PlayerUI PlayerUI;
     public StructureFactory BaseFactory;
     public Resource Resources;
+    public String Name;
 }

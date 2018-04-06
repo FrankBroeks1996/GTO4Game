@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
@@ -11,13 +12,27 @@ public class PlayerManager : MonoBehaviour {
     public Grid TileGrid;
     public SelectionHandler selectionHandler;
     public ChangeScreen ChangeScreen;
-
+    public GameOverManager GameOverManager;
 
 	// Use this for initialization
 	void Start () {
         PlayerInTurn = Players[0];
         Players[0].gameObject.SetActive(true);
         PlayerColorPanel.GetComponent<Image>().color = PlayerInTurn.color;
+    }
+
+    public void InitializeBaseListeners(List<Structure> structures)
+    {
+        foreach (Structure structure in structures)
+        {
+            structure.DeathEvent.AddListener(EndGame);
+        }
+    }
+
+    public void EndGame()
+    {
+        GameOverManager.Winner = PlayerInTurn.Name;
+        SceneManager.LoadScene("GameOverScene");
     }
 
     public void ChangePlayer()

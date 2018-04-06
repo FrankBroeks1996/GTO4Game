@@ -17,10 +17,15 @@ public abstract class ArmyEntity : MonoBehaviour {
         Health -= damage;
         if (Health <= 0)
         {
-            Tile targetUnitTile = transform.parent.GetComponent<Tile>();
-            targetUnitTile.Occupied = false;
-            Destroy(gameObject);
+            Death();
         }
         OnHealthChanged.Invoke();
+    }
+
+    public virtual void Death()
+    {
+        Tile targetUnitTile = transform.parent.GetComponent<Tile>();
+        targetUnitTile.Occupied = false;
+        Destroy(gameObject);
     }
 }

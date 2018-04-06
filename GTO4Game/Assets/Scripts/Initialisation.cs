@@ -11,17 +11,20 @@ public class Initialisation : MonoBehaviour {
     void Awake()
     {
         TileGrid.Initialize();
-        InitializeBases();
+        TurnManager.InitializeBaseListeners(InitializeBases());
         InitializeResourceNodes();
+        
     }
 
-    public void InitializeBases()
+    public List<Structure> InitializeBases()
     {
+        List<Structure> bases = new List<Structure>();
         foreach (Player player in TurnManager.Players)
         {
             Tile tile = TileGrid.GetBaseSpawnPoint();
-            player.BaseFactory.InstantiateStructure(tile);
+            bases.Add(player.BaseFactory.InstantiateStructure(tile).GetComponent<Structure>());
         }
+        return bases;
     }
 
     public void InitializeResourceNodes()

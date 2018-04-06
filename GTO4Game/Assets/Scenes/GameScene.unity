@@ -436,6 +436,11 @@ Prefab:
       propertyPath: Player
       value: 
       objectReference: {fileID: 235030907}
+    - target: {fileID: 114624397014643810, guid: 79300e6abd40ef3438962d7e19e93a02,
+        type: 2}
+      propertyPath: Damage
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 79300e6abd40ef3438962d7e19e93a02, type: 2}
   m_IsPrefabParent: 0
@@ -672,6 +677,7 @@ MonoBehaviour:
   PlayerUI: {fileID: 620172717}
   BaseFactory: {fileID: 1670073858}
   Resources: {fileID: 1825248463}
+  Name: Coole henkie
 --- !u!4 &235030908
 Transform:
   m_ObjectHideFlags: 0
@@ -720,7 +726,7 @@ Transform:
   - {fileID: 536097587}
   - {fileID: 421225383}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &259542319
 GameObject:
@@ -827,10 +833,10 @@ RectTransform:
   m_Father: {fileID: 620172718}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &345824480
 GameObject:
@@ -861,10 +867,10 @@ RectTransform:
   m_Father: {fileID: 996370430}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &421225382
 GameObject:
@@ -1092,6 +1098,7 @@ MonoBehaviour:
   TileGrid: {fileID: 79199043}
   selectionHandler: {fileID: 865284216}
   ChangeScreen: {fileID: 490054781}
+  GameOverManager: {fileID: 888330343}
 --- !u!4 &536097587
 Transform:
   m_ObjectHideFlags: 0
@@ -1703,7 +1710,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 758301579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 348, y: 110, z: 0}
+  m_LocalPosition: {x: 348, y: 109.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1058574902}
@@ -2011,6 +2018,50 @@ Transform:
   m_Father: {fileID: 217577740}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &888330341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 888330342}
+  - component: {fileID: 888330343}
+  m_Layer: 0
+  m_Name: GameOverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &888330342
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888330341}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 856, y: 520, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &888330343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888330341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df8aa079e013ef40b4b5d9bafda21ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Winner: 
+  PlayerCustomizations:
+  - Name: 
+    Color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &921782151
 Prefab:
   m_ObjectHideFlags: 0
@@ -2060,6 +2111,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 15022d40c426bc54da9d2c84c3b8e1d0, type: 2}
+    - target: {fileID: 114624397014643810, guid: 79300e6abd40ef3438962d7e19e93a02,
+        type: 2}
+      propertyPath: Damage
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 79300e6abd40ef3438962d7e19e93a02, type: 2}
   m_IsPrefabParent: 0
@@ -2452,7 +2508,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1064439891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 348, y: 110, z: 0}
+  m_LocalPosition: {x: 348, y: 109.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3074838}
@@ -2611,7 +2667,7 @@ Transform:
   - {fileID: 235030908}
   - {fileID: 1910397637}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1157044735
 GameObject:
@@ -4072,6 +4128,7 @@ MonoBehaviour:
   PlayerUI: {fileID: 996370431}
   BaseFactory: {fileID: 1190235367}
   Resources: {fileID: 1244178947}
+  Name: De Paashaas
 --- !u!1 &1917230636
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,7 +4335,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011070098
 GameObject:
