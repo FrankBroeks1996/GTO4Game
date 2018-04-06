@@ -15,7 +15,7 @@ public class UnitFactory : MonoBehaviour
         newUnit.transform.parent = tile.transform;
         newUnit.SetActive(true);
         tile.Occupied = true;
-        tile.UnitOnTile = newUnit.GetComponent<Unit>();
+        tile.ArmyEntityOnTile = newUnit.GetComponent<Unit>();
         return newUnit;
     }
 }

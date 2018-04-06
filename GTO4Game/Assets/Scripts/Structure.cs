@@ -9,13 +9,10 @@ public enum StructureType
     UnitProduction
 }
 
-public class Structure : MonoBehaviour {
+public class Structure : ArmyEntity {
     public GameObject UnitsScreen;
     public int BuildingTime;
     public List<UnitFactory> Factorys;
-    public Player player;
     public int SpawnRage; 
     public StructureType StructureType;
-    public int Health;
-    public int Price;
 }

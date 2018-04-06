@@ -13,7 +13,7 @@ public class StructureFactory : MonoBehaviour {
         GameObject newStructure = Instantiate(Structure, new Vector3(tile.transform.position.x, 3, tile.transform.position.z), Quaternion.identity);
         newStructure.SetActive(true);
         newStructure.transform.parent = tile.transform;
-        tile.StructureOnTile = newStructure.GetComponent<Structure>();
+        tile.ArmyEntityOnTile = newStructure.GetComponent<Structure>();
         tile.Occupied = true;
         return newStructure;
     }

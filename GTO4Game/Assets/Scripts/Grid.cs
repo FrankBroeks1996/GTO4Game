@@ -71,19 +71,19 @@ public class Grid : MonoBehaviour {
         harvester.transform.SetParent(grid[3, 8].transform);
         harvester.GetComponent<Unit>().Player = Players[0];
         grid[3, 8].Occupied = true;
-        grid[3, 8].UnitOnTile = harvester.GetComponent<Unit>();
+        grid[3, 8].ArmyEntityOnTile = harvester.GetComponent<Unit>();
 
         GameObject harvester1 = Instantiate(Harvester, new Vector3(grid[3, 2].transform.position.x, 3, grid[3, 2].transform.position.z), Quaternion.identity);
         harvester1.transform.SetParent(grid[3, 2].transform);
         harvester1.GetComponent<Unit>().Player = Players[0];
         grid[3, 2].Occupied = true;
-        grid[3, 2].UnitOnTile = harvester1.GetComponent<Unit>();
+        grid[3, 2].ArmyEntityOnTile = harvester1.GetComponent<Unit>();
 
         GameObject harvester2 = Instantiate(Harvester, new Vector3(grid[7, 2].transform.position.x, 3, grid[7, 2].transform.position.z), Quaternion.identity);
         harvester2.transform.SetParent(grid[7, 2].transform);
         harvester2.GetComponent<Unit>().Player = Players[0];
         grid[7, 2].Occupied = true;
-        grid[7, 2].UnitOnTile = harvester2.GetComponent<Unit>();
+        grid[7, 2].ArmyEntityOnTile = harvester2.GetComponent<Unit>();
     }
 
     public int GetDistanceBetweenTiles(Tile startTile, Tile endTile)
@@ -150,14 +150,18 @@ public class Grid : MonoBehaviour {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                Structure structioreOnTile = grid[x, y].StructureOnTile;
-                if (structioreOnTile != null && structioreOnTile.StructureType == StructureType.Base && structioreOnTile.player == player)
+                if(grid[x,y].ArmyEntityOnTile is Structure)
                 {
-                    if (closestTile == null || GetDistanceBetweenTiles(fromTile, grid[x, y]) < GetDistanceBetweenTiles(closestTile, fromTile))
+                    Structure structureOnTile = (Structure)grid[x, y].ArmyEntityOnTile;
+                    if (structureOnTile != null && structureOnTile.StructureType == StructureType.Base && structureOnTile.Player == player)
                     {
-                        closestTile = grid[x, y];
+                        if (closestTile == null || GetDistanceBetweenTiles(fromTile, grid[x, y]) < GetDistanceBetweenTiles(closestTile, fromTile))
+                        {
+                            closestTile = grid[x, y];
+                        }
                     }
                 }
+                
             }
         }
         return closestTile;
@@ -248,7 +252,7 @@ public class Grid : MonoBehaviour {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                if (grid[x, y].StructureOnTile != null && grid[x, y].StructureOnTile.player == TurnManager.PlayerInTurn)
+                if (grid[x, y].ArmyEntityOnTile != null && grid[x, y].ArmyEntityOnTile.Player == TurnManager.PlayerInTurn && grid[x,y].ArmyEntityOnTile is Structure)
                 {
                     tilesWithPlayerStructure.Add(grid[x, y]);
                 }
@@ -289,7 +293,7 @@ public class Grid : MonoBehaviour {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                if (grid[x, y].UnitOnTile != null && grid[x,y].UnitOnTile.Player == player)
+                if (grid[x, y].ArmyEntityOnTile != null && grid[x,y].ArmyEntityOnTile.Player == player && grid[x, y].ArmyEntityOnTile is Unit)
                 {
                     tilesWithPlayerUnit.Add(grid[x,y]);
                 }
@@ -305,9 +309,9 @@ public class Grid : MonoBehaviour {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                if(grid[x,y].UnitOnTile != null && grid[x, y].UnitOnTile is Harvester && grid[x,y].UnitOnTile.Player == player)
+                if(grid[x,y].ArmyEntityOnTile != null && grid[x, y].ArmyEntityOnTile is Harvester && grid[x,y].ArmyEntityOnTile.Player == player)
                 {
-                    harvesters.Add(grid[x, y].UnitOnTile);
+                    harvesters.Add((Unit)grid[x, y].ArmyEntityOnTile);
                 }
             }
         }

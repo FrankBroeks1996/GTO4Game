@@ -51,8 +51,9 @@ public class PlayerManager : MonoBehaviour {
         List<Tile> tilesWithUnit = TileGrid.GetAllTilesWithPlayerUnit(PlayerInTurn);
         foreach (Tile tile in tilesWithUnit)
         {
-            tile.UnitOnTile.CanMoveInTurn = true;
-            tile.UnitOnTile.CanAttackInTurn = true;
+            Unit unit = (Unit)tile.ArmyEntityOnTile;
+            unit.CanMoveInTurn = true;
+            unit.CanAttackInTurn = true;
         }
     }
 }
