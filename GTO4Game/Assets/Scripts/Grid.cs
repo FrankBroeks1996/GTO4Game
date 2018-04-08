@@ -24,9 +24,50 @@ public class Grid : MonoBehaviour {
                 grid[x, y] = Instantiate<Tile>(Tile, new Vector3(x + 1.5f * x, 1, y + 1.5f * y), Quaternion.identity);
             }
         }
+        FillTileNeighbours();
         InstantiateResourceHarvester();
     }
-    
+
+    public void FillTileNeighbours()
+    {
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                List<Tile> neighbours = new List<Tile>();
+                if(x - 1 >= 0)
+                {
+                    neighbours.Add(grid[x - 1, y]);
+                }
+                if(x + 1 < grid.GetLength(0))
+                {
+                    neighbours.Add(grid[x + 1, y]);
+                }
+                if (y - 1 >= 0)
+                {
+                    neighbours.Add(grid[x, y - 1]);
+                }
+                if (y + 1 < grid.GetLength(1))
+                {
+                    neighbours.Add(grid[x, y + 1]);
+                }
+                grid[x, y].Neighbours = neighbours;
+            }
+        }
+    }
+
+    public void ResetAllTilePathfinding()
+    {
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                grid[x, y].ResetTilePathFinding();
+            }
+        }
+    }
+
+
     public Tile GetFirstEmptyTile()
     {
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -67,23 +108,23 @@ public class Grid : MonoBehaviour {
 
     public void InstantiateResourceHarvester()
     {
-        GameObject harvester = Instantiate(Harvester, new Vector3(grid[3, 8].transform.position.x, 3, grid[3, 8].transform.position.z), Quaternion.identity);
-        harvester.transform.SetParent(grid[3, 8].transform);
+        GameObject harvester = Instantiate(Harvester, new Vector3(grid[3, 5].transform.position.x, 3, grid[3, 5].transform.position.z), Quaternion.identity);
+        harvester.transform.SetParent(grid[3, 5].transform);
         harvester.GetComponent<Unit>().Player = Players[0];
-        grid[3, 8].Occupied = true;
-        grid[3, 8].ArmyEntityOnTile = harvester.GetComponent<Unit>();
+        grid[3, 5].Occupied = true;
+        grid[3, 5].ArmyEntityOnTile = harvester.GetComponent<Unit>();
 
-        GameObject harvester1 = Instantiate(Harvester, new Vector3(grid[3, 2].transform.position.x, 3, grid[3, 2].transform.position.z), Quaternion.identity);
-        harvester1.transform.SetParent(grid[3, 2].transform);
-        harvester1.GetComponent<Unit>().Player = Players[0];
-        grid[3, 2].Occupied = true;
-        grid[3, 2].ArmyEntityOnTile = harvester1.GetComponent<Unit>();
+        //GameObject harvester1 = Instantiate(Harvester, new Vector3(grid[3, 2].transform.position.x, 3, grid[3, 2].transform.position.z), Quaternion.identity);
+        //harvester1.transform.SetParent(grid[3, 2].transform);
+        //harvester1.GetComponent<Unit>().Player = Players[0];
+        //grid[3, 2].Occupied = true;
+        //grid[3, 2].ArmyEntityOnTile = harvester1.GetComponent<Unit>();
 
-        GameObject harvester2 = Instantiate(Harvester, new Vector3(grid[7, 2].transform.position.x, 3, grid[7, 2].transform.position.z), Quaternion.identity);
-        harvester2.transform.SetParent(grid[7, 2].transform);
-        harvester2.GetComponent<Unit>().Player = Players[0];
-        grid[7, 2].Occupied = true;
-        grid[7, 2].ArmyEntityOnTile = harvester2.GetComponent<Unit>();
+        //GameObject harvester2 = Instantiate(Harvester, new Vector3(grid[7, 2].transform.position.x, 3, grid[7, 2].transform.position.z), Quaternion.identity);
+        //harvester2.transform.SetParent(grid[7, 2].transform);
+        //harvester2.GetComponent<Unit>().Player = Players[0];
+        //grid[7, 2].Occupied = true;
+        //grid[7, 2].ArmyEntityOnTile = harvester2.GetComponent<Unit>();
     }
 
     public int GetDistanceBetweenTiles(Tile startTile, Tile endTile)
@@ -122,6 +163,22 @@ public class Grid : MonoBehaviour {
             }
         }
         return Vector2.zero;
+    }
+
+    public List<Tile> GetTilesWithResourceNode()
+    {
+        List<Tile> tilesWithResourceNode = new List<Tile>();
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (grid[x, y].ResourceNodeOnTile != null)
+                {
+                    tilesWithResourceNode.Add(grid[x, y]);
+                }
+            }
+        }
+        return tilesWithResourceNode;
     }
 
     public Tile GetClosestTileWithResourceNode(Tile fromTile)
@@ -220,6 +277,29 @@ public class Grid : MonoBehaviour {
         return bestTile;
     }
 
+    public Tile GetBestTile(Tile destination, List<Tile> possibleTiles, Tile unavailableTile)
+    {
+        Tile bestTile = null;
+        foreach (Tile tile in possibleTiles)
+        {
+            if (bestTile == null || GetDistanceBetweenTiles(destination, tile) < GetDistanceBetweenTiles(destination, bestTile))
+            {
+                if(unavailableTile != null)
+                {
+                    if(tile != unavailableTile)
+                    {
+                        bestTile = tile;
+                    }
+                }
+                else
+                {
+                    bestTile = tile;
+                }
+            }
+        }
+        return bestTile;
+    }
+
     public void TurnAllHighlightOf()
     {
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -283,6 +363,34 @@ public class Grid : MonoBehaviour {
             }
         }
         return buildableTiles;
+    }
+
+    public List<Tile> GetStructureSpawnableTiles(Structure structure)
+    {
+        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure();
+        List<Tile> spawnableTiles = new List<Tile>();
+
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (!grid[x, y].Occupied)
+                {
+                    foreach (Tile tile in tilesWithPlayerStructure)
+                    {
+                        Structure s = (Structure)tile.ArmyEntityOnTile;
+                        if (s == structure)
+                        {
+                            if (GetDistanceBetweenTiles(grid[x, y], tile) <= structure.SpawnRage)
+                            {
+                                spawnableTiles.Add(grid[x, y]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return spawnableTiles;
     }
 
     public List<Tile> GetAllTilesWithPlayerUnit(Player player)

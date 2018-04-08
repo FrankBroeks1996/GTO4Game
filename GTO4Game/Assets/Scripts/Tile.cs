@@ -11,6 +11,13 @@ public class Tile : MonoBehaviour {
     public bool Occupied = false;
     public bool IsHighLight = false;
 
+    //Needed for A* pathfinding
+    public int FScore = 0;
+    public int HScore = 0;
+    public int GScore = 0;
+    public List<Tile> Neighbours;
+    public Tile Previous;
+
 	// Use this for initialization
 	void Start () {
         x = transform.position.x;
@@ -32,6 +39,13 @@ public class Tile : MonoBehaviour {
         {
             GetComponent<Renderer>().material.color = Color.white;
         }
-        
+    }
+
+    public void ResetTilePathFinding()
+    {
+        FScore = 0;
+        HScore = 0;
+        GScore = 0;
+        Previous = null;
     }
 }

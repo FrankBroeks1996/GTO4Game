@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameOverManager : MonoBehaviour {
+public class CrossSceneManager : MonoBehaviour {
 
-    public static GameOverManager Manager;
+    public static CrossSceneManager Manager;
 
     public string Winner;
-    public List<PlayerCustomization> PlayerCustomizations;
+    public List<string> PlayerNames;
 
     void Awake()
     {
@@ -23,11 +23,9 @@ public class GameOverManager : MonoBehaviour {
             Manager = this;
         }
     }
-}
 
-[Serializable]
-public struct PlayerCustomization
-{
-    public string Name;
-    public Color Color;
+    public void SetPlayerNames(List<string> players)
+    {
+        PlayerNames = players;
+    }
 }

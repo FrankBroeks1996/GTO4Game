@@ -12,13 +12,13 @@ public class PlayerManager : MonoBehaviour {
     public Grid TileGrid;
     public SelectionHandler selectionHandler;
     public ChangeScreen ChangeScreen;
-    public GameOverManager GameOverManager;
 
 	// Use this for initialization
 	void Start () {
         PlayerInTurn = Players[0];
         Players[0].gameObject.SetActive(true);
         PlayerColorPanel.GetComponent<Image>().color = PlayerInTurn.color;
+        SetPlayerNames();
     }
 
     public void InitializeBaseListeners(List<Structure> structures)
@@ -29,9 +29,17 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+    public void SetPlayerNames()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].Name = CrossSceneManager.Manager.PlayerNames[i];
+        }
+    }
+
     public void EndGame()
     {
-        GameOverManager.Winner = PlayerInTurn.Name;
+        CrossSceneManager.Manager.Winner = PlayerInTurn.Name;
         SceneManager.LoadScene("GameOverScene");
     }
 

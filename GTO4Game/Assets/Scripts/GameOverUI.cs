@@ -12,7 +12,7 @@ public class GameOverUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        winner = GameOverManager.Manager.Winner;
+        winner = CrossSceneManager.Manager.Winner;
         WinnerText.text = winner + " Won the game!!!";
 	}
 

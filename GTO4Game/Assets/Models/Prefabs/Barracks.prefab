@@ -332,8 +332,13 @@ MonoBehaviour:
   UnitsScreen: {fileID: 0}
   BuildingTime: 0
   Factorys: []
-  SpawnRage: 0
+  SpawnRage: 2
   StructureType: 2
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114722112628199776
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -8,4 +8,6 @@ public class Harvester : Unit {
     public bool Harvesting = false;
     public Tile Destination;
     public int ResourceCarryAmount;
+
+    public Tile PrevTile;
 }

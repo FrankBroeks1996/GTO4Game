@@ -726,7 +726,7 @@ Transform:
   - {fileID: 536097587}
   - {fileID: 421225383}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &259542319
 GameObject:
@@ -1098,7 +1098,6 @@ MonoBehaviour:
   TileGrid: {fileID: 79199043}
   selectionHandler: {fileID: 865284216}
   ChangeScreen: {fileID: 490054781}
-  GameOverManager: {fileID: 888330343}
 --- !u!4 &536097587
 Transform:
   m_ObjectHideFlags: 0
@@ -2018,50 +2017,6 @@ Transform:
   m_Father: {fileID: 217577740}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &888330341
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 888330342}
-  - component: {fileID: 888330343}
-  m_Layer: 0
-  m_Name: GameOverManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &888330342
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 888330341}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 856, y: 520, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &888330343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 888330341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df8aa079e013ef40b4b5d9bafda21ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Winner: 
-  PlayerCustomizations:
-  - Name: 
-    Color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &921782151
 Prefab:
   m_ObjectHideFlags: 0
@@ -2667,7 +2622,7 @@ Transform:
   - {fileID: 235030908}
   - {fileID: 1910397637}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1157044735
 GameObject:
@@ -4050,7 +4005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentOwned: 0
-  StartAmount: 1500
+  StartAmount: 15000
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4335,7 +4290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011070098
 GameObject:
