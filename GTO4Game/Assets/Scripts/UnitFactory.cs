@@ -11,7 +11,7 @@ public class UnitFactory : MonoBehaviour
 
     public GameObject InstantiateUnit(Tile tile)
     {
-        GameObject newUnit = Instantiate(unit, new Vector3(tile.x, 2, tile.y), Quaternion.identity);
+        GameObject newUnit = Instantiate(unit, new Vector3(tile.transform.position.x, 3, tile.transform.position.z), Quaternion.identity);
         newUnit.transform.parent = tile.transform;
         newUnit.SetActive(true);
         tile.Occupied = true;

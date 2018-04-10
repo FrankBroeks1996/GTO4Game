@@ -122,7 +122,7 @@ Transform:
   m_GameObject: {fileID: 1422834466944812}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49999976, y: 0.5, z: 0.49999976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224282108472171928}
   m_Father: {fileID: 0}
@@ -142,7 +142,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 189609176835f6b4ab685ba94ab9228a, type: 2}
+  - {fileID: 2100000, guid: 15022d40c426bc54da9d2c84c3b8e1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -329,6 +329,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  IsHighLight: 0
   UnitsScreen: {fileID: 0}
   BuildingTime: 0
   Factorys: []

@@ -12,8 +12,8 @@ public class Initialisation : MonoBehaviour {
     {
         TileGrid.Initialize();
         TurnManager.InitializeBaseListeners(InitializeBases());
+        InitializeHarvesters();
         InitializeResourceNodes();
-        
     }
 
     public List<Structure> InitializeBases()
@@ -27,9 +27,18 @@ public class Initialisation : MonoBehaviour {
         return bases;
     }
 
+    public void InitializeHarvesters()
+    {
+        foreach (Player player in TurnManager.Players)
+        {
+            Tile tile = TileGrid.GetHarvesterSpawnPoint();
+            player.HarvesterFactory.InstantiateUnit(tile);
+        }
+    }
+
     public void InitializeResourceNodes()
     {
-        List<Tile> tiles = TileGrid.GetResourceNodeSpawnPoint();
+        List<Tile> tiles = TileGrid.GetResourceNodeSpawnPoints();
         foreach (Tile tile in tiles)
         {
             GameObject resourceNode1 = Instantiate(ResourceNode, new Vector3(tile.transform.position.x, 3, tile.transform.position.z), Quaternion.identity);

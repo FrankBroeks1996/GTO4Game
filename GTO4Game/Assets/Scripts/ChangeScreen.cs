@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeScreen : MonoBehaviour {
-
+    
     public List<PlayerUI> AllPlayerScreens;
 
 	public void SwitchToBuildStructureScreen(PlayerUI playerUI)
@@ -36,7 +36,7 @@ public class ChangeScreen : MonoBehaviour {
     public void ChangePlayerScreen(Player player)
     {
         SetAllScreensInactive();
-        foreach(PlayerUI playerUI in AllPlayerScreens)
+        foreach (PlayerUI playerUI in AllPlayerScreens)
         {
             playerUI.gameObject.SetActive(false);
         }

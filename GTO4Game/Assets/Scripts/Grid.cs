@@ -11,6 +11,8 @@ public class Grid : MonoBehaviour {
     public GameObject Harvester;
     public List<Player> Players;
     public PlayerManager TurnManager;
+    [Header("Every extra node adds 2 new nodes mirrored to each other")]
+    public int ExtraResourceNodes;
 
     private Tile[,] grid;
 
@@ -25,7 +27,6 @@ public class Grid : MonoBehaviour {
             }
         }
         FillTileNeighbours();
-        InstantiateResourceHarvester();
     }
 
     public void FillTileNeighbours()
@@ -98,33 +99,43 @@ public class Grid : MonoBehaviour {
         return tile;
     }
 
-    public List<Tile> GetResourceNodeSpawnPoint()
+    public List<Tile> GetResourceNodeSpawnPoints()
     {
         List<Tile> tiles = new List<Tile>();
-        tiles.Add(grid[0, 0]);
-        tiles.Add(grid[Size - 1, Size - 1]);
+        if (!tiles.Contains(grid[0, 0]))
+        {
+            tiles.Add(grid[0, 0]);
+            tiles.Add(grid[Size - 1, Size - 1]);
+        }
+
+        int newResourceNodeCount = 0;
+        while(newResourceNodeCount != ExtraResourceNodes)
+        {
+            int x = Random.Range(0, grid.GetLength(0) / 2);
+            int y = Random.Range(0, grid.GetLength(1));
+            if (!grid[x, y].Occupied)
+            {
+                tiles.Add(grid[x, y]);
+                tiles.Add(grid[grid.GetLength(0) - (x + 1), grid.GetLength(1) - (y + 1)]);
+                newResourceNodeCount++;
+            }
+        }
+        
         return tiles;
     }
 
-    public void InstantiateResourceHarvester()
+    public Tile GetHarvesterSpawnPoint()
     {
-        GameObject harvester = Instantiate(Harvester, new Vector3(grid[3, 5].transform.position.x, 3, grid[3, 5].transform.position.z), Quaternion.identity);
-        harvester.transform.SetParent(grid[3, 5].transform);
-        harvester.GetComponent<Unit>().Player = Players[0];
-        grid[3, 5].Occupied = true;
-        grid[3, 5].ArmyEntityOnTile = harvester.GetComponent<Unit>();
-
-        //GameObject harvester1 = Instantiate(Harvester, new Vector3(grid[3, 2].transform.position.x, 3, grid[3, 2].transform.position.z), Quaternion.identity);
-        //harvester1.transform.SetParent(grid[3, 2].transform);
-        //harvester1.GetComponent<Unit>().Player = Players[0];
-        //grid[3, 2].Occupied = true;
-        //grid[3, 2].ArmyEntityOnTile = harvester1.GetComponent<Unit>();
-
-        //GameObject harvester2 = Instantiate(Harvester, new Vector3(grid[7, 2].transform.position.x, 3, grid[7, 2].transform.position.z), Quaternion.identity);
-        //harvester2.transform.SetParent(grid[7, 2].transform);
-        //harvester2.GetComponent<Unit>().Player = Players[0];
-        //grid[7, 2].Occupied = true;
-        //grid[7, 2].ArmyEntityOnTile = harvester2.GetComponent<Unit>();
+        Tile tile = null;
+        if (!grid[3, 2].Occupied)
+        {
+            tile = grid[3, 2];
+        }
+        else if (!grid[Size - 4, Size - 3].Occupied)
+        {
+            tile = grid[Size - 4, Size - 3];
+        }
+        return tile;
     }
 
     public int GetDistanceBetweenTiles(Tile startTile, Tile endTile)

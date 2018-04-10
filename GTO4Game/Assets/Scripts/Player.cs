@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public Color color;
     public PlayerUI PlayerUI;
     public StructureFactory BaseFactory;
+    public UnitFactory HarvesterFactory;
     public Resource Resources;
     public String Name;
 }

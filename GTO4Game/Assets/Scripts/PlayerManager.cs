@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour {
     public Grid TileGrid;
     public SelectionHandler selectionHandler;
     public ChangeScreen ChangeScreen;
+    public Text PlayerText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,7 @@ public class PlayerManager : MonoBehaviour {
         Players[0].gameObject.SetActive(true);
         PlayerColorPanel.GetComponent<Image>().color = PlayerInTurn.color;
         SetPlayerNames();
+        PlayerText.text = PlayerInTurn.Name;
     }
 
     public void InitializeBaseListeners(List<Structure> structures)
@@ -67,6 +69,7 @@ public class PlayerManager : MonoBehaviour {
         ResetPlayerUnits();
         selectionHandler.ResetSelection();
         PathFinding.HandlePlayerHarvesters(PlayerInTurn);
+        PlayerText.text = PlayerInTurn.Name;
     }
 
     public void ResetPlayerUnits()

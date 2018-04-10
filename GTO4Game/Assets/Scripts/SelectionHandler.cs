@@ -21,6 +21,8 @@ public class SelectionHandler : MonoBehaviour {
     public GameObject BuildFactory;
     public Grid TileGrid;
     public SelectionType SelectionType = SelectionType.None;
+    public SelectionInfoUI SelectionInfoUI;
+    public ArmyEntity HighlightedEntity;
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,102 +37,137 @@ public class SelectionHandler : MonoBehaviour {
                     Tile clickedTile = raycastHit.collider.GetComponent<Tile>();
                     if (clickedTile != null)
                     {
-                        if (clickedTile.ArmyEntityOnTile != null && clickedTile.ArmyEntityOnTile.Player != null && clickedTile.ArmyEntityOnTile.Player == PlayerManager.PlayerInTurn)
+
+                        if (SelectedUnit != null && TileGrid.IsTileWithinRange(SelectedUnit.transform.parent.GetComponent<Tile>(), SelectedUnit.MovementCount, clickedTile))
+                        {
+                            if (clickedTile.ArmyEntityOnTile == null)
+                            {
+                                MovementHandler.Move(SelectedUnit, clickedTile);
+                            }
+                            else
+                            {
+                                if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                {
+                                    MovementHandler.AttackArmyEntity(SelectedUnit, clickedTile.ArmyEntityOnTile);
+                                }
+                            }
+                            ResetSelection();
+                        }
+
+                        if (clickedTile.ArmyEntityOnTile != null && clickedTile.ArmyEntityOnTile.Player != null)
                         {
                             if (clickedTile.ArmyEntityOnTile is Unit)
                             {
-                                ResetSelection();
-                                SelectionType = SelectionType.Unit;
-                                SelectedUnit = (Unit)clickedTile.ArmyEntityOnTile;
-                                ChangeScreenHandler.SetAllScreensInactive();
-
-
-                                List<Tile> possibleTiles = new List<Tile>();
-                                if (SelectedUnit.CanMoveInTurn)
+                                if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn && SelectedUnit == null && SelectedStructure == null && BuildFactory == null)
                                 {
-                                    possibleTiles.AddRange(TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementCount));
-                                }
-                                if (SelectedUnit.CanAttackInTurn)
-                                {
-                                    possibleTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.MovementCount));
-                                }
-                                foreach (Tile tile in possibleTiles)
-                                {
-                                    if (tile.ArmyEntityOnTile != null && tile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                    Unit unit = (Unit)clickedTile.ArmyEntityOnTile;
+                                    if (unit.Health > 0)
                                     {
-                                        tile.HighLight(true, Color.red);
+                                        ResetHighlight();
+                                        HighlightedEntity = unit;
+                                        HighlightedEntity.HighLight(true);
+                                        SelectionInfoUI.SetText(unit.Health, unit.Damage);
                                     }
-                                    else if (!tile.Occupied)
+                                }
+                                else if(clickedTile.ArmyEntityOnTile.Player == PlayerManager.PlayerInTurn)
+                                {
+                                    ResetSelection();
+                                    SelectionType = SelectionType.Unit;
+                                    SelectedUnit = (Unit)clickedTile.ArmyEntityOnTile;
+                                    ChangeScreenHandler.SetAllScreensInactive();
+                                    SelectionInfoUI.SetText(SelectedUnit.Health, SelectedUnit.Damage);
+                                    HighlightedEntity = SelectedUnit;
+                                    HighlightedEntity.HighLight(true);
+
+                                    List<Tile> possibleTiles = new List<Tile>();
+                                    if (SelectedUnit.CanMoveInTurn)
                                     {
-                                        tile.HighLight(true);
+                                        possibleTiles.AddRange(TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementCount));
+                                    }
+                                    if (SelectedUnit.CanAttackInTurn)
+                                    {
+                                        possibleTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.MovementCount));
+                                    }
+                                    foreach (Tile tile in possibleTiles)
+                                    {
+                                        if (tile.ArmyEntityOnTile != null && tile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                        {
+                                            tile.HighLight(true, Color.red);
+                                        }
+                                        else if (!tile.Occupied)
+                                        {
+                                            tile.HighLight(true);
+                                        }
                                     }
                                 }
                             }
                             else if (clickedTile.ArmyEntityOnTile is Structure)
                             {
-                                ResetSelection();
-                                SelectionType = SelectionType.Structure;
-                                SelectedStructure = (Structure)clickedTile.ArmyEntityOnTile;
-                                ChangeScreenHandler.SwitchToCreateUnitScreen(SelectedStructure);
+                                if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn && SelectedUnit == null && SelectedStructure == null && BuildFactory == null)
+                                {
+                                    Structure structure = (Structure)clickedTile.ArmyEntityOnTile;
+                                    if (structure.Health > 0)
+                                    {
+                                        ResetHighlight();
+                                        HighlightedEntity = structure;
+                                        HighlightedEntity.HighLight(true);
+                                        SelectionInfoUI.SetText(structure.Health, structure.Damage);
+                                    }
+                                }
+                                else if(clickedTile.ArmyEntityOnTile.Player == PlayerManager.PlayerInTurn)
+                                {
+                                    ResetSelection();
+                                    SelectionType = SelectionType.Structure;
+                                    SelectedStructure = (Structure)clickedTile.ArmyEntityOnTile;
+                                    ChangeScreenHandler.SwitchToCreateUnitScreen(SelectedStructure);
+                                    SelectionInfoUI.SetText(SelectedStructure.Health);
+                                    HighlightedEntity = SelectedStructure;
+                                    HighlightedEntity.HighLight(true);
+                                }
                             }
                         }
                         else if (clickedTile.ResourceNodeOnTile == null)
                         {
-                            switch (SelectionType)
+                            if (SelectionType == SelectionType.Build)
                             {
-                                case SelectionType.Build:
-                                    if(BuildFactory.GetComponent<StructureFactory>() != null)
+                                if (BuildFactory.GetComponent<StructureFactory>() != null)
+                                {
+                                    List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
+                                    if (buildableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<StructureFactory>().Structure.GetComponent<Structure>().Price))
                                     {
-                                        List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
-                                        if (buildableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<StructureFactory>().Structure.GetComponent<Structure>().Price))
-                                        {
-                                            BuildFactory.GetComponent<StructureFactory>().InstantiateStructure(clickedTile);
-                                        }
-                                        ResetSelection(SelectionType.Structure);
+                                        BuildFactory.GetComponent<StructureFactory>().InstantiateStructure(clickedTile);
                                     }
-                                    else if(BuildFactory.GetComponent<UnitFactory>() != null)
+                                    ResetSelection(SelectionType.Structure);
+                                }
+                                else if (BuildFactory.GetComponent<UnitFactory>() != null)
+                                {
+                                    List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles(SelectedStructure);
+                                    if (spawnableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<UnitFactory>().unit.GetComponent<Unit>().Price))
                                     {
-                                        List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles(SelectedStructure);
-                                        if(spawnableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(BuildFactory.GetComponent<UnitFactory>().unit.GetComponent<Unit>().Price))
-                                        {
-                                            BuildFactory.GetComponent<UnitFactory>().InstantiateUnit(clickedTile);
-                                            clickedTile.HighLight(false);
-                                        }
+                                        BuildFactory.GetComponent<UnitFactory>().InstantiateUnit(clickedTile);
+                                        clickedTile.HighLight(false);
                                     }
-                                    break;
-                                case SelectionType.Unit:
-                                    if (TileGrid.IsTileWithinRange(SelectedUnit.transform.parent.GetComponent<Tile>(), SelectedUnit.MovementCount, clickedTile))
-                                    {
-                                        if (clickedTile.ArmyEntityOnTile == null)
-                                        {
-                                            MovementHandler.Move(SelectedUnit, clickedTile);
-                                        }
-                                        else
-                                        {
-                                            MovementHandler.AttackArmyEntity(SelectedUnit, clickedTile.ArmyEntityOnTile);
-                                        }
-                                        ResetSelection();
-                                    }
-                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
-            if (Input.GetKeyUp(KeyCode.Escape))
-            {
-                ResetSelection();
-            }
         }
-	}
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            ResetSelection();
+        }
+    }
     
     public void SelectBuild(GameObject factory)
     {
+        SelectionInfoUI.SetText();
         SelectionType = SelectionType.Build;
         BuildFactory = factory;
         SelectedUnit = null;
 
-        if(BuildFactory.GetComponent<StructureFactory>() != null)
+        if (BuildFactory.GetComponent<StructureFactory>() != null)
         {
             List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
             foreach (Tile tile in buildableTiles)
@@ -151,6 +188,7 @@ public class SelectionHandler : MonoBehaviour {
 
     public void ResetSelection(SelectionType selectionType = SelectionType.None)
     {
+        SelectionInfoUI.HideScreen();
         TileGrid.TurnAllHighlightOf();
         SelectionType = selectionType;
         SelectedUnit = null;
@@ -159,6 +197,15 @@ public class SelectionHandler : MonoBehaviour {
         if(selectionType == SelectionType.None)
         {
             ChangeScreenHandler.SwitchToBuildStructureScreen(PlayerManager.PlayerInTurn.PlayerUI);
+        }
+        ResetHighlight();
+    }
+
+    public void ResetHighlight()
+    {
+        if (HighlightedEntity != null)
+        {
+            HighlightedEntity.HighLight(false);
         }
     }
 
