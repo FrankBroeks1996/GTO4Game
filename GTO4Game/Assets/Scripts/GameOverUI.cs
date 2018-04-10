@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour {
 
+    [Header("Text that displays the winner")]
     public Text WinnerText;
 
     private string winner;

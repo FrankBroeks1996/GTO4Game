@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
+    [Header("Speed of the arrow movement")]
     public float Speed = 15;
+
+    [Header("Speed of the zoom movement")]
     public float ScrollSpeed = 300;
 	
 	// Update is called once per frame

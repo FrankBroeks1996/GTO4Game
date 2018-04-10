@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour {
+
+    [Header("Tile information")]
     public Unit ArmyEntityOnTile;
     public ResourceNode ResourceNodeOnTile;
     public bool Occupied = false;
     public bool IsHighLight = false;
 
-    [Header("Pathfinding")]
+    [Header("Required for Pathfinding")]
     public int FScore = 0;
     public int HScore = 0;
     public int GScore = 0;

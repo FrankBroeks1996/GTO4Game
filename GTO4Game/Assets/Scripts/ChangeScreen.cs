@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChangeScreen : MonoBehaviour {
     
+    [Header("The player screens of all the players")]
     public List<PlayerUI> AllPlayerScreens;
 
 	public void SwitchToBuildStructureScreen(PlayerUI playerUI)

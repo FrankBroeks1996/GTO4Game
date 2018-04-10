@@ -4,19 +4,26 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Unit : MonoBehaviour {
+
+    [Header("The player the unit belongs to")]
     public Player Player;
+
+    [Header("Unit stats")]
     public int Health;
     public int Damage;
     public int Price;
-    public bool CanMoveInTurn = true;
-    public bool CanAttackInTurn = true;
     public int MovementRange;
     public int AttackRange;
+    
+    [Header("Booleans controlling if the player can move/attack")]
+    public bool CanMoveInTurn = true;
+    public bool CanAttackInTurn = true;
 
-    public UnityEvent OnHealthChanged = new UnityEvent();
-
+    [Header("Properties keeping track of highlighting")]
     public bool IsHighLight = false;
     private Color originalColor;
+
+    public UnityEvent OnHealthChanged = new UnityEvent();
 
     void Awake()
     {

@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class CrossSceneManager : MonoBehaviour {
 
+    [Header("Singleton object controlling the flow trough scenes")]
     public static CrossSceneManager Manager;
 
+    [Header("Player information that needs to be persisted trough scenes")]
     public string Winner;
     public List<string> PlayerNames;
 

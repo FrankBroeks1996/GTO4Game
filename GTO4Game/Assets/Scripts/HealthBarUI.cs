@@ -5,25 +5,27 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
 public class HealthBarUI : MonoBehaviour {
-    public Unit ArmyEntity;
+
+    [Header("The unit belonging to the healthbar")]
+    public Unit Unit;
 
     private Slider slider;
 
 	void Awake()
     {
         slider = GetComponent<Slider>();
-        ArmyEntity.OnHealthChanged.AddListener(UpdateUI);
+        Unit.OnHealthChanged.AddListener(UpdateUI);
     }
 
     void Start()
     {
-        slider.maxValue = ArmyEntity.Health;
+        slider.maxValue = Unit.Health;
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        slider.value = ArmyEntity.Health;
+        slider.value = Unit.Health;
         if (slider.value != slider.maxValue)
         {
             transform.parent.GetComponent<CanvasGroup>().alpha = 1f;

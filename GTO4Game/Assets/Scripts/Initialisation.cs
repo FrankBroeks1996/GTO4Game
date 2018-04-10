@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Initialisation : MonoBehaviour {
 
+    [Header("The handler that controls player actions")]
     public PlayerManager TurnManager;
+
+    [Header("Resource node prefab")]
     public GameObject ResourceNode;
+
+    [Header("The tile grid")]
     public Grid TileGrid;
 
     void Awake()

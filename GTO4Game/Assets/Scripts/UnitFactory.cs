@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class UnitFactory : MonoBehaviour
 {
-
+    [Header("The player the factory belongs to")]
     public Player player;
+
+    [Header("The unit prefab the factory creates")]
     public GameObject unit;
+
+    [Header("The tile grid")]
     public Grid grid;
 
     public GameObject InstantiateUnit(Tile tile)

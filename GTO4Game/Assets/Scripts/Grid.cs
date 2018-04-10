@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
+    [Header("The size of th grid")]
     public int Size;
-    public Tile Tile;
-    public GameObject ResourceNode;
-    public GameObject Base;
-    public GameObject Harvester;
-    public List<Player> Players;
-    public PlayerManager TurnManager;
+
     [Header("Every extra node adds 2 new nodes mirrored to each other")]
     public int ExtraResourceNodes;
 
+    [Header("Tile prefab")]
+    public Tile Tile;
+
+    [Header("The gamehandler that controls the players")]
+    public PlayerManager TurnManager;
+    
     private Tile[,] grid;
 
     public void Initialize()

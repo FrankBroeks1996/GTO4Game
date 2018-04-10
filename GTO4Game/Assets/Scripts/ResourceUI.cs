@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent (typeof(Resource))]
 public class ResourceUI : MonoBehaviour {
 
+    [Header("The text displaying the amount of resources")]
     public Text ResourceAmountText;
 
     private Resource resource;

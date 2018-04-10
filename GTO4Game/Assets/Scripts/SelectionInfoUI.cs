@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SelectionInfoUI : MonoBehaviour {
 
+    [Header("Text displaying health and damage for the selected unit")]
     public Text HealthText;
     public Text DamageText;
 

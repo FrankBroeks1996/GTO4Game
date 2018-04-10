@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PathFinding : MonoBehaviour {
 
+    [Header("The tile grid")]
     public Grid TileGrid;
 
     public void HandlePlayerHarvesters(Player player)

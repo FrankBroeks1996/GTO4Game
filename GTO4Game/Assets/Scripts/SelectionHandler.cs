@@ -12,17 +12,24 @@ public enum SelectionType
 }
 
 public class SelectionHandler : MonoBehaviour {
+
+    [Header("Game handlers")]
     public ChangeScreen ChangeScreenHandler;
     public PlayerManager PlayerManager;
+
+    [Header("Main camera for raycasting")]
     public Camera MainCamera;
+
+    [Header("The tile grid")]
+    public Grid TileGrid;
+
+    [Header("Properties used by the selection handler")]
     public Unit SelectedUnit;
     public GameObject BuildFactory;
-    public Grid TileGrid;
     public SelectionType SelectionType = SelectionType.None;
     public SelectionInfoUI SelectionInfoUI;
     public Unit HighlightedEntity;
 	
-	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonUp(0))
         {

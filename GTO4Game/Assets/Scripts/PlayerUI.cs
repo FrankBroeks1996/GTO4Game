@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour {
 
+    [Header("Standard build screen")]
     public GameObject BuildScreen;
+
+    [Header("All structure screens")]
     public List<GameObject> UnitScreens;
 }

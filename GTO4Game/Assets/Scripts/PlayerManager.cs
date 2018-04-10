@@ -5,14 +5,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
+    [Header("Game handlers")]
     public PathFinding PathFinding;
+    public SelectionHandler SelectionHandler;
+    public ChangeScreen ChangeScreen;
+
+    [Header("Player information")]
     public List<Player> Players;
     public GameObject PlayerColorPanel;
     public Player PlayerInTurn;
-    public Grid TileGrid;
-    public SelectionHandler selectionHandler;
-    public ChangeScreen ChangeScreen;
     public Text PlayerText;
+
+    [Header("Tile grid")]
+    public Grid TileGrid;
 
 	// Use this for initialization
 	void Start () {
@@ -68,7 +73,7 @@ public class PlayerManager : MonoBehaviour {
         PlayerInTurn.gameObject.SetActive(true);
         ChangeScreen.ChangePlayerScreen(PlayerInTurn);
         ResetPlayerUnits();
-        selectionHandler.ResetSelection();
+        SelectionHandler.ResetSelection();
         PathFinding.HandlePlayerHarvesters(PlayerInTurn);
         PlayerText.text = PlayerInTurn.Name;
     }

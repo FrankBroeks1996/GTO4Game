@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerCustomizeUI : MonoBehaviour {
 
+    [Header("Player name input fields")]
     public InputField inputFieldPlayer1;
     public InputField inputFieldPlayer2;
 

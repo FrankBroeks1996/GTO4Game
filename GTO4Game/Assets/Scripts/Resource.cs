@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Resource : MonoBehaviour {
+    [Header("Resource information")]
     public int CurrentOwned;
     public int StartAmount;
 
