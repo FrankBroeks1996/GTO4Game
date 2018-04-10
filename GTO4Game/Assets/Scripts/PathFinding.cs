@@ -196,6 +196,7 @@ public class PathFinding : MonoBehaviour {
         if (!harvester.HasResources)
         {
             harvester.Harvesting = true;
+            harvester.CanMoveInTurn = false;
         }
         else
         {

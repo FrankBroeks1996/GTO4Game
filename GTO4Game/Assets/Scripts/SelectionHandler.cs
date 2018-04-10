@@ -32,8 +32,10 @@ public class SelectionHandler : MonoBehaviour {
             RaycastHit raycastHit;
             if (!IsPointerOverUIObject())
             {
+                Debug.Log(1);
                 if (Physics.Raycast(ray, out raycastHit, 100f, LayerMask.GetMask("Grid")))
                 {
+                    Debug.Log(2);
                     Tile clickedTile = raycastHit.collider.GetComponent<Tile>();
                     if (clickedTile != null)
                     {
@@ -153,6 +155,10 @@ public class SelectionHandler : MonoBehaviour {
                     }
                 }
             }
+            else
+            {
+                Debug.Log("Never");
+            }
         }
         if (Input.GetKeyUp(KeyCode.Escape))
         {
@@ -212,10 +218,14 @@ public class SelectionHandler : MonoBehaviour {
     //When Touching UI
     private bool IsPointerOverUIObject()
     {
-        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-        return results.Count > 0;
+        //PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        //eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        //List<RaycastResult> results = new List<RaycastResult>();
+        //EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        //Debug.Log(EventSystem.current.IsPointerOverGameObject());
+
+        //return results.Count > 0;
+        return EventSystem.current.IsPointerOverGameObject();
     }
 }

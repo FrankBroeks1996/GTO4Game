@@ -54,7 +54,6 @@ GameObject:
   - component: {fileID: 224555701134573340}
   - component: {fileID: 223715882178653784}
   - component: {fileID: 114895899111421574}
-  - component: {fileID: 114636376340018748}
   - component: {fileID: 225688359536029432}
   m_Layer: 0
   m_Name: Canvas
@@ -172,7 +171,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: f317378b38d7193458fb8a47f20b7a42, type: 2}
+  - {fileID: 2100000, guid: 189609176835f6b4ab685ba94ab9228a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -318,22 +317,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114636376340018748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1442661535196644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &114760302993733910
 MonoBehaviour:
   m_ObjectHideFlags: 1

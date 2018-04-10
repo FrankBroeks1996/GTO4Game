@@ -121,7 +121,6 @@ GameObject:
   - component: {fileID: 224653720735873900}
   - component: {fileID: 223332716631673480}
   - component: {fileID: 114870786846499788}
-  - component: {fileID: 114161813507601892}
   - component: {fileID: 225409473216780300}
   m_Layer: 0
   m_Name: Canvas
@@ -240,22 +239,6 @@ MonoBehaviour:
   Player: {fileID: 0}
   Structure: {fileID: 1574698443403748}
   TileGrid: {fileID: 0}
---- !u!114 &114161813507601892
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1704409846391862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &114533015985459430
 MonoBehaviour:
   m_ObjectHideFlags: 1

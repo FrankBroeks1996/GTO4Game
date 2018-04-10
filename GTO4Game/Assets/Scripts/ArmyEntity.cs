@@ -42,7 +42,7 @@ public abstract class ArmyEntity : MonoBehaviour {
         IsHighLight = !IsHighLight;
         if (highlightOn)
         {
-            GetComponent<Renderer>().material.color = Color.white;
+            GetComponent<Renderer>().material.color = Color.yellow;
         }
         else
         {
