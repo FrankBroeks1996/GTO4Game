@@ -68,7 +68,6 @@ public class PlayerManager : MonoBehaviour {
         PlayerInTurn.gameObject.SetActive(true);
         ChangeScreen.ChangePlayerScreen(PlayerInTurn);
         ResetPlayerUnits();
-        ResetPlayerStructures();
         selectionHandler.ResetSelection();
         PathFinding.HandlePlayerHarvesters(PlayerInTurn);
         PlayerText.text = PlayerInTurn.Name;
@@ -79,19 +78,8 @@ public class PlayerManager : MonoBehaviour {
         List<Tile> tilesWithUnit = TileGrid.GetAllTilesWithPlayerUnit(PlayerInTurn);
         foreach (Tile tile in tilesWithUnit)
         {
-            Unit unit = (Unit)tile.ArmyEntityOnTile;
-            unit.CanMoveInTurn = true;
-            unit.CanAttackInTurn = true;
-        }
-    }
-    
-    public void ResetPlayerStructures()
-    {
-        List<Tile> tilesWithStructure = TileGrid.GetAllTilesWithPlayerStructure();
-        foreach (Tile tile in tilesWithStructure)
-        {
-            Structure structure = (Structure)tile.ArmyEntityOnTile;
-            structure.CanAttackInTurn = true;
+            tile.ArmyEntityOnTile.CanMoveInTurn = true;
+            tile.ArmyEntityOnTile.CanAttackInTurn = true;
         }
     }
 }

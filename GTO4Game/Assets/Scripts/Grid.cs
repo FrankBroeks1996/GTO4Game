@@ -68,23 +68,6 @@ public class Grid : MonoBehaviour {
         }
     }
 
-
-    public Tile GetFirstEmptyTile()
-    {
-        for (int x = 0; x < grid.GetLength(0); x++)
-        {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                if(!grid[x, y].Occupied)
-                {
-                    return grid[x, y];
-                }
-            }
-        }
-
-        return null;
-    }
-
     public Tile GetBaseSpawnPoint()
     {
         Tile tile = null;
@@ -161,21 +144,6 @@ public class Grid : MonoBehaviour {
         return 0;
     }
 
-    public Vector2 GetGridTilePosition(Tile tile)
-    {
-        for (int x = 0; x < grid.GetLength(0); x++)
-        {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                if (grid[x, y] == tile)
-                {
-                    return new Vector2(x, y);
-                }
-            }
-        }
-        return Vector2.zero;
-    }
-
     public List<Tile> GetTilesWithResourceNode()
     {
         List<Tile> tilesWithResourceNode = new List<Tile>();
@@ -190,25 +158,6 @@ public class Grid : MonoBehaviour {
             }
         }
         return tilesWithResourceNode;
-    }
-
-    public Tile GetClosestTileWithResourceNode(Tile fromTile)
-    {
-        Tile closestTile = null;
-        for (int x = 0; x < grid.GetLength(0); x++)
-        {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                if(grid[x, y].ResourceNodeOnTile != null)
-                {
-                    if(closestTile == null || GetDistanceBetweenTiles(fromTile, grid[x, y]) < GetDistanceBetweenTiles(closestTile, fromTile))
-                    {
-                        closestTile = grid[x, y];
-                    }
-                }
-            }
-        }
-        return closestTile;
     }
 
     public Tile GetTileWithBase(Tile fromTile, Player player)
@@ -273,42 +222,6 @@ public class Grid : MonoBehaviour {
             }
         }
         return targetsWithinRange;
-    }
-
-    public Tile GetBestTile(Tile destination, List<Tile> possibleTiles)
-    {
-        Tile bestTile = null;
-        foreach (Tile tile in possibleTiles)
-        {
-            if(bestTile == null || GetDistanceBetweenTiles(destination, tile) < GetDistanceBetweenTiles(destination, bestTile))
-            {
-                bestTile = tile;
-            }
-        }
-        return bestTile;
-    }
-
-    public Tile GetBestTile(Tile destination, List<Tile> possibleTiles, Tile unavailableTile)
-    {
-        Tile bestTile = null;
-        foreach (Tile tile in possibleTiles)
-        {
-            if (bestTile == null || GetDistanceBetweenTiles(destination, tile) < GetDistanceBetweenTiles(destination, bestTile))
-            {
-                if(unavailableTile != null)
-                {
-                    if(tile != unavailableTile)
-                    {
-                        bestTile = tile;
-                    }
-                }
-                else
-                {
-                    bestTile = tile;
-                }
-            }
-        }
-        return bestTile;
     }
 
     public void TurnAllHighlightOf()
@@ -412,7 +325,7 @@ public class Grid : MonoBehaviour {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                if (grid[x, y].ArmyEntityOnTile != null && grid[x,y].ArmyEntityOnTile.Player == player && grid[x, y].ArmyEntityOnTile is Unit)
+                if (grid[x, y].ArmyEntityOnTile != null && grid[x,y].ArmyEntityOnTile.Player == player)
                 {
                     tilesWithPlayerUnit.Add(grid[x,y]);
                 }
@@ -430,7 +343,7 @@ public class Grid : MonoBehaviour {
             {
                 if(grid[x,y].ArmyEntityOnTile != null && grid[x, y].ArmyEntityOnTile is Harvester && grid[x,y].ArmyEntityOnTile.Player == player)
                 {
-                    harvesters.Add((Unit)grid[x, y].ArmyEntityOnTile);
+                    harvesters.Add(grid[x, y].ArmyEntityOnTile);
                 }
             }
         }

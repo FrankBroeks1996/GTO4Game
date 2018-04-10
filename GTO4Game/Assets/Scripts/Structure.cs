@@ -12,7 +12,6 @@ public enum StructureType
 
 public class Structure : Unit {
     public GameObject UnitsScreen;
-    public int BuildingTime;
     public int SpawnRange = 1; 
     public StructureType StructureType;
     public UnityEvent DeathEvent = new UnityEvent();

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-
-    //public Resources resources;
     public Color color;
     public PlayerUI PlayerUI;
-    public StructureFactory BaseFactory;
+    public UnitFactory BaseFactory;
     public UnitFactory HarvesterFactory;
     public Resource Resources;
     public String Name;

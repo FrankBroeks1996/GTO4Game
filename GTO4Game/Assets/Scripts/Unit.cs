@@ -52,4 +52,29 @@ public class Unit : MonoBehaviour {
             GetComponent<Renderer>().material.color = originalColor;
         }
     }
+
+    public void AttackEnemy(Unit target)
+    {
+        if (CanAttackInTurn)
+        {
+            target.RemoveHealth(Damage);
+            CanAttackInTurn = false;
+        }
+    }
+
+    public void Move(Tile tile)
+    {
+        if (CanMoveInTurn)
+        {
+            Tile fromTile = transform.parent.GetComponent<Tile>();
+            fromTile.ArmyEntityOnTile = null;
+            fromTile.Occupied = false;
+
+            tile.ArmyEntityOnTile = this;
+            tile.Occupied = true;
+            transform.position = new Vector3(tile.transform.position.x, transform.position.y, tile.transform.position.z);
+            transform.SetParent(tile.transform);
+            CanMoveInTurn = false;
+        }
+    }
 }

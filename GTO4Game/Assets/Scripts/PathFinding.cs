@@ -6,7 +6,6 @@ using UnityEngine;
 public class PathFinding : MonoBehaviour {
 
     public Grid TileGrid;
-    public MovementHandler MovementHandler;
 
     public void HandlePlayerHarvesters(Player player)
     {
@@ -62,10 +61,6 @@ public class PathFinding : MonoBehaviour {
                     path.Add(tempTile.Previous);
                     tempTile = tempTile.Previous;
                 }
-                foreach (Tile tile in path)
-                {
-                    tile.HighLight(true, Color.blue);
-                }
                 return path;
             }
 
@@ -98,17 +93,6 @@ public class PathFinding : MonoBehaviour {
                     }
                 }
 
-            }
-
-
-            TileGrid.TurnAllHighlightOf();
-            foreach (Tile tile in openSet)
-            {
-                tile.HighLight(true, Color.green);
-            }
-            foreach (Tile tile in closedSet)
-            {
-                tile.HighLight(true, Color.red);
             }
         }
         return null;
@@ -151,21 +135,6 @@ public class PathFinding : MonoBehaviour {
         return path;
     }
 
-    public Tile GetDestination(Unit unit)
-    {
-        Harvester harvester = (Harvester)unit;
-        Tile harvesterTile = unit.transform.parent.GetComponent<Tile>();
-        if (harvester.HasResources)
-        {
-            harvester.Destination = TileGrid.GetTileWithBase(harvesterTile, harvester.Player);
-        }
-        else
-        {
-            harvester.Destination = TileGrid.GetClosestTileWithResourceNode(harvesterTile);
-        }
-        return harvester.Destination;
-    }
-
     public Tile GetStart(Unit unit)
     {
         Tile start = unit.transform.parent.GetComponent<Tile>();
@@ -177,12 +146,12 @@ public class PathFinding : MonoBehaviour {
         
         if(path.Count <= unit.MovementRange + 1)
         {
-            MovementHandler.Move(unit, path[1]);
+            unit.Move(path[1]);
             HandleHarvesterDestination(unit);
         }
         else
         {
-            MovementHandler.Move(unit, path[path.Count - (unit.MovementRange + 1)]);
+            unit.Move(path[path.Count - (unit.MovementRange + 1)]);
             if (unit.transform.parent.GetComponent<Tile>() == path[1])
             {
                 HandleHarvesterDestination(unit);

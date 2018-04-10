@@ -22,7 +22,7 @@ public class Initialisation : MonoBehaviour {
         foreach (Player player in TurnManager.Players)
         {
             Tile tile = TileGrid.GetBaseSpawnPoint();
-            bases.Add(player.BaseFactory.InstantiateStructure(tile).GetComponent<Structure>());
+            bases.Add(player.BaseFactory.InstantiateUnit(tile).GetComponent<Structure>());
         }
         return bases;
     }
