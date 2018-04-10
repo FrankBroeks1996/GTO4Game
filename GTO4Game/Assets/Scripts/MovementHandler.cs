@@ -21,7 +21,7 @@ public class MovementHandler : MonoBehaviour {
         }
     }
 
-    public void AttackArmyEntity(ArmyEntity performer, ArmyEntity target)
+    public void AttackArmyEntity(Unit performer, Unit target)
     {
         if (performer.CanAttackInTurn)
         {

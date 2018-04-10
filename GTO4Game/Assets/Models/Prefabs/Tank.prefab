@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4297018874162088}
   - component: {fileID: 33962205531019714}
   - component: {fileID: 23915464748654672}
-  - component: {fileID: 114658756016075174}
+  - component: {fileID: 114365237930884056}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -196,6 +196,31 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114365237930884056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1851204310220562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bae221178b617140a70857d0d5b7846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  Health: 50
+  Damage: 25
+  Price: 100
+  CanMoveInTurn: 1
+  CanAttackInTurn: 1
+  MovementRange: 1
+  AttackRange: 1
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  IsHighLight: 0
 --- !u!114 &114429794601780602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,32 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 114658756016075174}
---- !u!114 &114658756016075174
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1851204310220562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f906bdd0a5292b54cbe7cfc13bca8650, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  Health: 10
-  Damage: 10
-  Price: 10
-  CanAttackInTurn: 1
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  IsHighLight: 0
-  MovementCount: 1
-  tile: {fileID: 0}
-  CanMoveInTurn: 1
+  ArmyEntity: {fileID: 0}
 --- !u!114 &114667600445219020
 MonoBehaviour:
   m_ObjectHideFlags: 1

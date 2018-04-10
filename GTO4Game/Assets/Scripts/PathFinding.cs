@@ -175,14 +175,14 @@ public class PathFinding : MonoBehaviour {
     public void MoveHarvester(Unit unit, List<Tile> path)
     {
         
-        if(path.Count <= unit.MovementCount + 1)
+        if(path.Count <= unit.MovementRange + 1)
         {
             MovementHandler.Move(unit, path[1]);
             HandleHarvesterDestination(unit);
         }
         else
         {
-            MovementHandler.Move(unit, path[path.Count - (unit.MovementCount + 1)]);
+            MovementHandler.Move(unit, path[path.Count - (unit.MovementRange + 1)]);
             if (unit.transform.parent.GetComponent<Tile>() == path[1])
             {
                 HandleHarvesterDestination(unit);
@@ -215,51 +215,5 @@ public class PathFinding : MonoBehaviour {
             return true;
         }
         return false;
-    }
-
-    public void MoveHarvesterToNode(Unit unit)
-    {
-        Harvester harvester = (Harvester)unit;
-        
-        if (harvester.Harvesting)
-        {
-            harvester.Harvesting = false;
-            harvester.HasResources = true;
-        }
-        else
-        {
-            Tile harvesterTile = unit.transform.parent.GetComponent<Tile>();
-            if (harvester.Destination == null)
-            {
-                if (harvester.HasResources)
-                {
-                    harvester.Destination = TileGrid.GetTileWithBase(harvesterTile, harvester.Player);
-                }
-                else
-                {
-                    harvester.Destination = TileGrid.GetClosestTileWithResourceNode(harvesterTile);
-                }
-            }
-
-            List<Tile> possibleTiles = TileGrid.GetTilesWithinMovementRange(harvesterTile, harvester.MovementCount);
-            Tile bestTile = TileGrid.GetBestTile(harvester.Destination, possibleTiles, harvester.PrevTile);
-            harvester.PrevTile = harvesterTile;
-
-            MovementHandler.Move(unit, bestTile);
-            harvesterTile = unit.transform.parent.GetComponent<Tile>();
-            if (TileGrid.GetDistanceBetweenTiles(harvesterTile, harvester.Destination) == 1)
-            {
-                if (!harvester.HasResources)
-                {
-                    harvester.Harvesting = true;
-                }
-                else
-                {
-                    harvester.Player.Resources.AddResources(harvester.ResourceCarryAmount);
-                    harvester.HasResources = false;
-                }
-                harvester.Destination = null;
-            }
-        }
     }
 }

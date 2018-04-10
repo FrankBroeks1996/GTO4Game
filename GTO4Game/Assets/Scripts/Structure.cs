@@ -10,11 +10,10 @@ public enum StructureType
     UnitProduction
 }
 
-public class Structure : ArmyEntity {
+public class Structure : Unit {
     public GameObject UnitsScreen;
     public int BuildingTime;
-    public List<UnitFactory> Factorys;
-    public int SpawnRage; 
+    public int SpawnRange = 1; 
     public StructureType StructureType;
     public UnityEvent DeathEvent = new UnityEvent();
 

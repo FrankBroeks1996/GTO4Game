@@ -8,7 +8,7 @@ public class BuildInfoUI : MonoBehaviour {
     public Text HealthText;
     public Text DamageText;
     public Text PriceText;
-    public ArmyEntity ArmyEntity;
+    public Unit ArmyEntity;
 
     void Start()
     {

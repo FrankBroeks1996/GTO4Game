@@ -249,6 +249,7 @@ MonoBehaviour:
   Damage: 0
   Price: 2000
   CanAttackInTurn: 1
+  AttackRange: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -258,7 +259,7 @@ MonoBehaviour:
   UnitsScreen: {fileID: 0}
   BuildingTime: 0
   Factorys: []
-  SpawnRage: 2
+  SpawnRange: 2
   StructureType: 2
   DeathEvent:
     m_PersistentCalls:

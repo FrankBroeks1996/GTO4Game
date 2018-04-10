@@ -13,10 +13,7 @@ public class SelectionInfoUI : MonoBehaviour {
         ShowScreen();
         if(health != 0)
         {
-            if (health < 0)
-            {
-                HealthText.transform.gameObject.SetActive(true);
-            }
+            HealthText.transform.gameObject.SetActive(true);
             HealthText.text = "Health: " + health;
         }
         else

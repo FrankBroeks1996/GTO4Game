@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour {
     
     public float x;
     public float y;
-    public ArmyEntity ArmyEntityOnTile;
+    public Unit ArmyEntityOnTile;
     public ResourceNode ResourceNodeOnTile;
     public bool Occupied = false;
     public bool IsHighLight = false;

@@ -22,7 +22,7 @@ public class SelectionHandler : MonoBehaviour {
     public Grid TileGrid;
     public SelectionType SelectionType = SelectionType.None;
     public SelectionInfoUI SelectionInfoUI;
-    public ArmyEntity HighlightedEntity;
+    public Unit HighlightedEntity;
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,21 +32,19 @@ public class SelectionHandler : MonoBehaviour {
             RaycastHit raycastHit;
             if (!IsPointerOverUIObject())
             {
-                Debug.Log(1);
                 if (Physics.Raycast(ray, out raycastHit, 100f, LayerMask.GetMask("Grid")))
                 {
-                    Debug.Log(2);
                     Tile clickedTile = raycastHit.collider.GetComponent<Tile>();
                     if (clickedTile != null)
                     {
 
-                        if (SelectedUnit != null && TileGrid.IsTileWithinRange(SelectedUnit.transform.parent.GetComponent<Tile>(), SelectedUnit.MovementCount, clickedTile))
+                        if (SelectedUnit != null)
                         {
-                            if (clickedTile.ArmyEntityOnTile == null)
+                            if (clickedTile.ArmyEntityOnTile == null && TileGrid.IsTileWithinRange(SelectedUnit.transform.parent.GetComponent<Tile>(), SelectedUnit.MovementRange, clickedTile))
                             {
                                 MovementHandler.Move(SelectedUnit, clickedTile);
                             }
-                            else
+                            else if (TileGrid.IsTileWithinRange(SelectedUnit.transform.parent.GetComponent<Tile>(), SelectedUnit.AttackRange, clickedTile))
                             {
                                 if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
                                 {
@@ -54,11 +52,54 @@ public class SelectionHandler : MonoBehaviour {
                                 }
                             }
                             ResetSelection();
+                        }else if (SelectedStructure != null && TileGrid.IsTileWithinRange(SelectedStructure.transform.parent.GetComponent<Tile>(), SelectedStructure.AttackRange, clickedTile))
+                        {
+                            if (clickedTile.ArmyEntityOnTile != null && clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                            {
+                                MovementHandler.AttackArmyEntity(SelectedStructure, clickedTile.ArmyEntityOnTile);
+                            }
                         }
 
                         if (clickedTile.ArmyEntityOnTile != null && clickedTile.ArmyEntityOnTile.Player != null)
                         {
-                            if (clickedTile.ArmyEntityOnTile is Unit)
+                            if (clickedTile.ArmyEntityOnTile is Structure)
+                            {
+                                if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn && SelectedUnit == null && SelectedStructure == null && BuildFactory == null)
+                                {
+                                    Structure structure = (Structure)clickedTile.ArmyEntityOnTile;
+                                    if (structure.Health > 0)
+                                    {
+                                        ResetHighlight();
+                                        HighlightedEntity = structure;
+                                        HighlightedEntity.HighLight(true);
+                                        SelectionInfoUI.SetText(structure.Health, structure.Damage);
+                                    }
+                                }
+                                else if (clickedTile.ArmyEntityOnTile.Player == PlayerManager.PlayerInTurn)
+                                {
+                                    ResetSelection();
+                                    SelectionType = SelectionType.Structure;
+                                    SelectedStructure = (Structure)clickedTile.ArmyEntityOnTile;
+                                    ChangeScreenHandler.SwitchToCreateUnitScreen(SelectedStructure);
+                                    SelectionInfoUI.SetText(SelectedStructure.Health);
+                                    HighlightedEntity = SelectedStructure;
+                                    HighlightedEntity.HighLight(true);
+
+                                    List<Tile> possibleAttackTiles = new List<Tile>();
+                                    if (SelectedStructure.CanAttackInTurn)
+                                    {
+                                        possibleAttackTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedStructure.AttackRange));
+                                        foreach (Tile tile in possibleAttackTiles)
+                                        {
+                                            if (tile.ArmyEntityOnTile != null && tile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                            {
+                                                tile.HighLight(true, Color.red);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
                             {
                                 if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn && SelectedUnit == null && SelectedStructure == null && BuildFactory == null)
                                 {
@@ -81,50 +122,31 @@ public class SelectionHandler : MonoBehaviour {
                                     HighlightedEntity = SelectedUnit;
                                     HighlightedEntity.HighLight(true);
 
-                                    List<Tile> possibleTiles = new List<Tile>();
+                                    List<Tile> possibleMoveTiles = new List<Tile>();
                                     if (SelectedUnit.CanMoveInTurn)
                                     {
-                                        possibleTiles.AddRange(TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementCount));
+                                        possibleMoveTiles.AddRange(TileGrid.GetTilesWithinMovementRange(clickedTile, SelectedUnit.MovementRange));
+                                        foreach (Tile tile in possibleMoveTiles)
+                                        {
+                                            if (!tile.Occupied)
+                                            {
+                                                tile.HighLight(true);
+                                            }
+                                        }
                                     }
+
+                                    List<Tile> possibleAttackTiles = new List<Tile>();
                                     if (SelectedUnit.CanAttackInTurn)
                                     {
-                                        possibleTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.MovementCount));
-                                    }
-                                    foreach (Tile tile in possibleTiles)
-                                    {
-                                        if (tile.ArmyEntityOnTile != null && tile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                        possibleAttackTiles.AddRange(TileGrid.GetTilesWithinAttackRange(clickedTile, SelectedUnit.AttackRange));
+                                        foreach (Tile tile in possibleAttackTiles)
                                         {
-                                            tile.HighLight(true, Color.red);
-                                        }
-                                        else if (!tile.Occupied)
-                                        {
-                                            tile.HighLight(true);
+                                            if (tile.ArmyEntityOnTile != null && tile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn)
+                                            {
+                                                tile.HighLight(true, Color.red);
+                                            }
                                         }
                                     }
-                                }
-                            }
-                            else if (clickedTile.ArmyEntityOnTile is Structure)
-                            {
-                                if (clickedTile.ArmyEntityOnTile.Player != PlayerManager.PlayerInTurn && SelectedUnit == null && SelectedStructure == null && BuildFactory == null)
-                                {
-                                    Structure structure = (Structure)clickedTile.ArmyEntityOnTile;
-                                    if (structure.Health > 0)
-                                    {
-                                        ResetHighlight();
-                                        HighlightedEntity = structure;
-                                        HighlightedEntity.HighLight(true);
-                                        SelectionInfoUI.SetText(structure.Health, structure.Damage);
-                                    }
-                                }
-                                else if(clickedTile.ArmyEntityOnTile.Player == PlayerManager.PlayerInTurn)
-                                {
-                                    ResetSelection();
-                                    SelectionType = SelectionType.Structure;
-                                    SelectedStructure = (Structure)clickedTile.ArmyEntityOnTile;
-                                    ChangeScreenHandler.SwitchToCreateUnitScreen(SelectedStructure);
-                                    SelectionInfoUI.SetText(SelectedStructure.Health);
-                                    HighlightedEntity = SelectedStructure;
-                                    HighlightedEntity.HighLight(true);
                                 }
                             }
                         }
@@ -154,10 +176,6 @@ public class SelectionHandler : MonoBehaviour {
                         }
                     }
                 }
-            }
-            else
-            {
-                Debug.Log("Never");
             }
         }
         if (Input.GetKeyUp(KeyCode.Escape))
@@ -212,20 +230,12 @@ public class SelectionHandler : MonoBehaviour {
         if (HighlightedEntity != null)
         {
             HighlightedEntity.HighLight(false);
+            HighlightedEntity = null;
         }
     }
-
-    //When Touching UI
+    
     private bool IsPointerOverUIObject()
     {
-        //PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        //eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        //List<RaycastResult> results = new List<RaycastResult>();
-        //EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-
-        //Debug.Log(EventSystem.current.IsPointerOverGameObject());
-
-        //return results.Count > 0;
         return EventSystem.current.IsPointerOverGameObject();
     }
 }

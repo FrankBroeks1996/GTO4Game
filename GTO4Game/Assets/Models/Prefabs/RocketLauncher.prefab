@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4792281170717502}
   - component: {fileID: 33528753201833004}
   - component: {fileID: 23580451785805838}
-  - component: {fileID: 114071754429726802}
+  - component: {fileID: 114121715729153124}
   m_Layer: 0
   m_Name: RocketLauncher
   m_TagString: Untagged
@@ -169,7 +169,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1020588847689796}
   m_Mesh: {fileID: 4300000, guid: d9b105698d8aa924097646eb5889b88e, type: 3}
---- !u!114 &114071754429726802
+--- !u!114 &114121715729153124
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -177,23 +177,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1020588847689796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f906bdd0a5292b54cbe7cfc13bca8650, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bae221178b617140a70857d0d5b7846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 10
-  Damage: 10
-  Price: 10
+  Health: 0
+  Damage: 0
+  Price: 0
+  CanMoveInTurn: 1
   CanAttackInTurn: 1
+  MovementRange: 0
+  AttackRange: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   IsHighLight: 0
-  MovementCount: 1
-  tile: {fileID: 0}
-  CanMoveInTurn: 1
 --- !u!114 &114543368294568922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 114071754429726802}
+  ArmyEntity: {fileID: 0}
 --- !u!114 &114820398849597966
 MonoBehaviour:
   m_ObjectHideFlags: 1

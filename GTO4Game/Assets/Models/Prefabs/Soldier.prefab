@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4140029501239168}
   - component: {fileID: 33150189867719504}
   - component: {fileID: 23790545851439688}
-  - component: {fileID: 114624397014643810}
+  - component: {fileID: 114717343514141516}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -292,8 +292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 114624397014643810}
---- !u!114 &114624397014643810
+  ArmyEntity: {fileID: 0}
+--- !u!114 &114717343514141516
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -301,22 +301,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1262901192785490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f906bdd0a5292b54cbe7cfc13bca8650, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bae221178b617140a70857d0d5b7846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 5
-  Damage: 1
-  Price: 100
+  Health: 0
+  Damage: 0
+  Price: 0
+  CanMoveInTurn: 1
   CanAttackInTurn: 1
+  MovementRange: 0
+  AttackRange: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  MovementCount: 1
-  tile: {fileID: 0}
-  CanMoveInTurn: 1
+  IsHighLight: 0
 --- !u!114 &114736680698156372
 MonoBehaviour:
   m_ObjectHideFlags: 1

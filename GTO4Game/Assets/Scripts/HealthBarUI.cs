@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
 public class HealthBarUI : MonoBehaviour {
-    public ArmyEntity ArmyEntity;
+    public Unit ArmyEntity;
 
     private Slider slider;
 

@@ -392,7 +392,7 @@ public class Grid : MonoBehaviour {
                         Structure s = (Structure)tile.ArmyEntityOnTile;
                         if (s == structure)
                         {
-                            if (GetDistanceBetweenTiles(grid[x, y], tile) <= structure.SpawnRage)
+                            if (GetDistanceBetweenTiles(grid[x, y], tile) <= structure.SpawnRange)
                             {
                                 spawnableTiles.Add(grid[x, y]);
                             }
