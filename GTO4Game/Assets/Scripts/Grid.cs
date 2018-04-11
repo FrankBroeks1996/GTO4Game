@@ -8,7 +8,7 @@ public class Grid : MonoBehaviour {
     public int Size;
 
     [Header("Every extra node adds 2 new nodes mirrored to each other")]
-    public int ExtraResourceNodes;
+    public int ResourceNodes = 1;
 
     [Header("Tile prefab")]
     public Tile Tile;
@@ -87,18 +87,23 @@ public class Grid : MonoBehaviour {
     public List<Tile> GetResourceNodeSpawnPoints()
     {
         List<Tile> tiles = new List<Tile>();
-        if (!tiles.Contains(grid[0, 0]))
+
+        if(ResourceNodes > Size)
         {
-            tiles.Add(grid[0, 0]);
-            tiles.Add(grid[Size - 1, Size - 1]);
+            ResourceNodes = Size;
         }
 
         int newResourceNodeCount = 0;
-        while(newResourceNodeCount != ExtraResourceNodes)
+        List<Tile> nonSpawnableTiles = new List<Tile>();
+        foreach (Player player in TurnManager.Players)
+        {
+            nonSpawnableTiles.AddRange(GetAllBuildableTiles(3, player));
+        }
+        while(newResourceNodeCount != ResourceNodes)
         {
             int x = Random.Range(0, grid.GetLength(0) / 2);
             int y = Random.Range(0, grid.GetLength(1));
-            if (!grid[x, y].Occupied)
+            if (!grid[x, y].Occupied && !nonSpawnableTiles.Contains(grid[x,y]))
             {
                 tiles.Add(grid[x, y]);
                 tiles.Add(grid[grid.GetLength(0) - (x + 1), grid.GetLength(1) - (y + 1)]);
@@ -251,14 +256,14 @@ public class Grid : MonoBehaviour {
         return false;
     }
 
-    public List<Tile> GetAllTilesWithPlayerStructure()
+    public List<Tile> GetAllTilesWithPlayerStructure(Player player)
     {
         List<Tile> tilesWithPlayerStructure = new List<Tile>();
         for (int x = 0; x < grid.GetLength(0); x++)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                if (grid[x, y].ArmyEntityOnTile != null && grid[x, y].ArmyEntityOnTile.Player == TurnManager.PlayerInTurn && grid[x,y].ArmyEntityOnTile is Structure)
+                if (grid[x, y].ArmyEntityOnTile != null && grid[x, y].ArmyEntityOnTile.Player == player && grid[x,y].ArmyEntityOnTile is Structure)
                 {
                     tilesWithPlayerStructure.Add(grid[x, y]);
                 }
@@ -267,9 +272,9 @@ public class Grid : MonoBehaviour {
         return tilesWithPlayerStructure;
     }
 
-    public List<Tile> GetAllBuildableTiles(int buildRange)
+    public List<Tile> GetAllBuildableTiles(int buildRange, Player player)
     {
-        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure();
+        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure(player);
         List<Tile> buildableTiles = new List<Tile>();
 
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -291,9 +296,9 @@ public class Grid : MonoBehaviour {
         return buildableTiles;
     }
 
-    public List<Tile> GetStructureSpawnableTiles(Structure structure)
+    public List<Tile> GetStructureSpawnableTiles(Structure structure, Player player)
     {
-        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure();
+        List<Tile> tilesWithPlayerStructure = GetAllTilesWithPlayerStructure(player);
         List<Tile> spawnableTiles = new List<Tile>();
 
         for (int x = 0; x < grid.GetLength(0); x++)

@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 0}
+  Unit: {fileID: 0}
 --- !u!114 &114717343514141516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,19 +305,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 0
-  Damage: 0
-  Price: 0
+  Health: 50
+  Damage: 30
+  Price: 300
+  MovementRange: 3
+  AttackRange: 2
   CanMoveInTurn: 1
   CanAttackInTurn: 1
-  MovementRange: 0
-  AttackRange: 0
+  IsHighLight: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  IsHighLight: 0
 --- !u!114 &114736680698156372
 MonoBehaviour:
   m_ObjectHideFlags: 1

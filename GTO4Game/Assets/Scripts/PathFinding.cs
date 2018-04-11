@@ -20,10 +20,6 @@ public class PathFinding : MonoBehaviour {
                 TileGrid.TurnAllHighlightOf();
                 if (path != null)
                 {
-                    foreach (Tile tile in path)
-                    {
-                        tile.HighLight(true, Color.blue);
-                    }
                     MoveHarvester(harvester, path);
                 }
             }

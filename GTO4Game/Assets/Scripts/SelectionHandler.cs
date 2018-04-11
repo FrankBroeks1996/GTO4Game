@@ -87,6 +87,10 @@ public class SelectionHandler : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.Escape))
         {
+            if(SelectionType == SelectionType.None)
+            {
+                ChangeScreenHandler.SwitchPauseState();
+            }
             ResetSelection();
         }
     }
@@ -160,7 +164,7 @@ public class SelectionHandler : MonoBehaviour {
             Unit unit = unitFactory.unit.GetComponent<Unit>();
             if (unit is Structure)
             {
-                List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
+                List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3, PlayerManager.PlayerInTurn);
                 if (buildableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(unit.Price))
                 {
                     unitFactory.InstantiateUnit(clickedTile);
@@ -169,7 +173,7 @@ public class SelectionHandler : MonoBehaviour {
             }
             else
             {
-                List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles((Structure)SelectedUnit);
+                List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles((Structure)SelectedUnit, PlayerManager.PlayerInTurn);
                 if (spawnableTiles.Contains(clickedTile) && PlayerManager.PlayerInTurn.Resources.RemoveResources(unit.Price))
                 {
                     unitFactory.InstantiateUnit(clickedTile);
@@ -189,7 +193,7 @@ public class SelectionHandler : MonoBehaviour {
         Unit unit = unitFactory.unit.GetComponent<Unit>();
         if (unit is Structure)
         {
-            List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3);
+            List<Tile> buildableTiles = TileGrid.GetAllBuildableTiles(3, PlayerManager.PlayerInTurn);
             foreach (Tile tile in buildableTiles)
             {
                 tile.HighLight(true, Color.green);
@@ -197,7 +201,7 @@ public class SelectionHandler : MonoBehaviour {
         }
         else
         {
-            List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles(SelectedUnit.GetComponent<Structure>());
+            List<Tile> spawnableTiles = TileGrid.GetStructureSpawnableTiles(SelectedUnit.GetComponent<Structure>(), PlayerManager.PlayerInTurn);
             foreach (Tile tile in spawnableTiles)
             {
                 tile.HighLight(true, Color.green);

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeScreen : MonoBehaviour {
-    
+
     [Header("The player screens of all the players")]
     public List<PlayerUI> AllPlayerScreens;
 
-	public void SwitchToBuildStructureScreen(PlayerUI playerUI)
+    [Header("Pause screen")]
+    public PauseUI PauseUI;
+
+    public void SwitchToBuildStructureScreen(PlayerUI playerUI)
     {
         SetAllScreensInactive();
         playerUI.BuildScreen.SetActive(true);
@@ -42,5 +45,9 @@ public class ChangeScreen : MonoBehaviour {
             playerUI.gameObject.SetActive(false);
         }
         player.PlayerUI.gameObject.SetActive(true);
+    }
+
+    public void SwitchPauseState(){
+        PauseUI.SwitchState();
     }
 }

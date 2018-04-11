@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 114492451144814532}
+  Unit: {fileID: 0}
 --- !u!114 &114492451144814532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,20 +193,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 50
+  Health: 750
   Damage: 0
   Price: 0
+  MovementRange: 0
+  AttackRange: 0
+  CanMoveInTurn: 1
   CanAttackInTurn: 1
+  IsHighLight: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   UnitsScreen: {fileID: 0}
-  BuildingTime: 0
-  Factorys: []
-  SpawnRage: 0
+  SpawnRange: 1
   StructureType: 0
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114622313076520140
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,6 +19,11 @@ public class GameOverUI : MonoBehaviour {
 
     public void PlayAgain()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("PlayerCustomizeScene");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

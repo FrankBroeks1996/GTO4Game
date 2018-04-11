@@ -12,10 +12,13 @@ public class PlayerCustomizeUI : MonoBehaviour {
 
     public void StartGame()
     {
-        List<string> playerNames = new List<string>();
-        playerNames.Add(inputFieldPlayer1.text);
-        playerNames.Add(inputFieldPlayer2.text);
-        CrossSceneManager.Manager.SetPlayerNames(playerNames);
-        SceneManager.LoadScene("GameScene");
+        if (inputFieldPlayer1.text != "" && inputFieldPlayer2.text != "")
+        {
+            List<string> playerNames = new List<string>();
+            playerNames.Add(inputFieldPlayer1.text);
+            playerNames.Add(inputFieldPlayer2.text);
+            CrossSceneManager.Manager.SetPlayerNames(playerNames);
+            SceneManager.LoadScene("GameScene");
+        }
     }
 }

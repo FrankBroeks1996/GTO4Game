@@ -181,24 +181,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 20
-  Damage: 0
-  Price: 0
+  Health: 75
+  Damage: 5
+  Price: 300
+  MovementRange: 2
+  AttackRange: 1
+  CanMoveInTurn: 1
   CanAttackInTurn: 1
+  IsHighLight: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  IsHighLight: 0
-  MovementCount: 2
-  tile: {fileID: 0}
-  CanMoveInTurn: 1
   HasResources: 0
   Harvesting: 0
-  Destination: {fileID: 0}
-  ResourceCarryAmount: 200
-  PrevTile: {fileID: 0}
+  ResourceCarryAmount: 300
 --- !u!114 &114014872291091432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab8f13aadb99b724a87d72c3686cd530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyEntity: {fileID: 0}
+  Unit: {fileID: 0}
 --- !u!114 &114843050356325774
 MonoBehaviour:
   m_ObjectHideFlags: 1

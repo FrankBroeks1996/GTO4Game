@@ -95,20 +95,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Health: 50
-  Damage: 10
-  Price: 300
+  Health: 125
+  Damage: 50
+  Price: 1200
+  MovementRange: 0
+  AttackRange: 3
+  CanMoveInTurn: 1
   CanAttackInTurn: 1
+  IsHighLight: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  IsHighLight: 0
   UnitsScreen: {fileID: 0}
-  BuildingTime: 0
-  Factorys: []
-  SpawnRage: 0
+  SpawnRange: 1
   StructureType: 1
   DeathEvent:
     m_PersistentCalls:
